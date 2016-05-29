@@ -8,13 +8,16 @@
 #### Dia 1
 
 - Introdução: Motivação / Apresentação Geral
-- Modelagem Sísmica: Tempo x Frequência
+- Revisão do Métodos Sísmico
+- Equação da Onda Acústica
+- Modelagem Sísmica pelo Método das Difereças Finitas: Tempo x Frequência
+- Migração Sísmica
 - **Aplicação Numérica 1: [Modelagem](modelagem)**
 
 #### Dia 2
 
-- Métodos de Otimização Não-Lineares
-- Método Adjunto / Formulação do FWI
+- Métodos Iterativos de Otimização Não-Linear: método gradiente, gradiente conjugado, Gauss-Newton, Newton, Quasi-Newton (l-BFGS)
+- Método Adjunto no Tempo e na Frequência / Formulação do FWI
 - Algoritmo FWI / Cálculo do Gradiente
 - **Aplicação Numérica 2: [Otimização](otimizacao)**
 
@@ -22,8 +25,9 @@
 
 - Salto de Ciclo
 - Método Multiescala
-- Regularização / Condicionamento / Hessiana
+- Regularização  e Pré-Condicionamento do Grandiente
 - Aspectos Práticos
+- Inversão multi-parâmetros: efeitos de anisotropia, absorção e elasticidade
 - **Aplicação Numérica 3: [FWI](fwi)**
 
 ---------------------------------
@@ -38,3 +42,30 @@
  [Download](http://www.ahay.org/wiki/Download), [Pré-Requisitos](http://www.ahay.org/wiki/Advanced_Installation#Platform-specific_installation_advice), [Instalação](http://www.ahay.org/wiki/Installation), [Tutorial](http://www.ahay.org/wiki/Tutorial)
 
 **Atenção!** É necessária a instalação da versão de desenvolvimento do Madagascar: *git clone https://github.com/ahay/src RSFSRC*
+
+---------------------------------
+
+### Referências
+
+* FICHTNER, A., *Full Seismic Waveform Modelling and Inversion*. Berlin, New York: Springer-Verlag, 2010.
+* CHEN, P., LEE, E.-J., *Full-3D Seismic Waveform Inversion: Theory, Software and Practice*, Springer International Publishing, 2015.
+* NOCEDAL, J., WRIGHT, S. J., *Numerical Optimization*: 2a Ed. Berlin, New York: Springer-Verlag, 2006.
+* ALKHALIFAH, T. *Full Waveform Inversion: Where are the Anisotropic Parameters hiding?* EAGE, 2014.
+* PRATT, R. G., SHIN, C., HICKS, G. J., *Gauss-Newton and full Newton methods in frequency space seismic waveform inversion*, Geophys. J. Int., 133, pp. 341-362, 1998.
+* TARANTOLA, A., *Inversion of seismic reflection data in the acoustic approximation*, Geophysics, **49**, pp. 1259-1266, 1984.
+* VIRIEUX, J., OPERTO, S., *An overview of full-waveform inversion in exploration geophysics*. Geophysics, **74**, no. 6 pp. WCC1-WCC26. 2009.
+
+---------------------------------
+
+### Recursos Externos
+
+#### Consórcio SEISCOPE: [Seiscope I](http://seiscope.oca.eu), [Seiscope II](http://seiscope2.osug.fr)
+
+- Modelagem e Inversão 2D frequência: FWT2D, TOY2DAC
+- Toolbox de Otimização: SEISCOPE OPTIMIZATION TOOLBOX
+
+#### Geophysical Institute of Karlsruhe Institute of Technology (GPI/KIT) [Software](http://www.gpi.kit.edu/english/Software.php)
+
+#### Madagascar [Site](http://ahay.org/wiki/Main_Page/), [Repositório](https://github.com/ahay/)
+
+#### [PySIT: Seismic Inversion Toolbox in Python](http://pysit.readthedocs.io/en/latest/)
