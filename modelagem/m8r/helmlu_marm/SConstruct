@@ -1,0 +1,79 @@
+from rsf.proj import *
+
+# get enviroment datapath (or choose datapath)
+from os import environ as osenv
+dpath=osenv.get('DATAPATH')
+#dpath=/home/
+
+
+## Make source
+def make_source(source,par):
+    Flow(source+'-real',None,
+         '''spike n1=%(nz)d d1=%(dz)g label1="Depth" unit2="m" 
+                   n2=%(nx)d d2=%(dx)g label2="Distance" unit2="m" 
+                   n3=1 o3=1 d3=1      label3="Sources"  unit3="" 
+                   n4=%(nf)d o4=%(of)g d4=%(df)g label4="Frequency"  unit4="Hz" 
+                   k1=%(zsrc)d k2=%(xsrc)d mag=1. datapath=%(dpath)s''' %(par))
+
+    Flow(source+'-imag',None,
+          '''spike n1=%(nz)d d1=%(dz)g label1="Depth" unit2="m" 
+                   n2=%(nx)d d2=%(dx)g label2="Distance" unit2="m" 
+                   n3=1 o3=1 d3=1      label3="Sources"  unit3="" 
+                   n4=%(nf)d o4=%(of)g d4=%(df)g label4="Frequency"  unit4="Hz" 
+                   k1=%(zsrc)d k2=%(xsrc)d mag=0. datapath=%(dpath)s''' %(par))
+
+    Flow(source,[source+'-real',source+'-imag'],
+          '''cmplx ${SOURCES[1]} datapath=%(dpath)s'''%(par))
+
+## Frequency domain modeling
+def helmlu(model,source,par,wfl):
+    Flow(wfl,[model,source],
+         ''' helmlu source=${SOURCES[1]} npml=%(npml)d verb=%(verb)s'''%(par))
+
+## Plot real
+def plot_real(wfl):
+    Result('real-'+wfl,wfl,'''transp plane=34 | real | 
+            grey title="Real Part" scalebar=y''')
+
+## Plot imag
+def plot_imag(wfl):
+    Result('imag-'+wfl,wfl,'''transp plane=34 | imag | 
+            grey title="Imag Part" scalebar=y''')
+
+## Plot cabs
+def plot_cabs(wfl):
+    Result('cabs-'+wfl,wfl,'''transp plane=34 | cabs | 
+            grey title="Cmplx Absolute" scalebar=y color=j''')
+
+
+# Modeling parameters
+par=dict(
+    nz=150,       # model z dimension
+    nx=460,       # model x dimension
+    dz=20.,       # model z interval
+    dx=20.,       # model x interval
+    nf=5,         # number of frequencies
+    df=2.5,        # frequency interval
+    of=5.,        # first frequency
+    npml=10,      # PML width
+    verb="y",       # verbosity flag
+    zsrc=5,      # source z position (grid point)
+    xsrc=50,      # source x position (grid point)
+    dpath=dpath   # datapath
+    )
+
+# Velocity model
+vel='marmvel'
+
+# Make source
+make_source('source',par)
+
+# Frequency domain modeling
+helmlu(vel,'source',par,'wfl')
+
+# Plots
+plot_real('wfl')
+plot_imag('wfl')
+plot_cabs('wfl')
+
+End()
