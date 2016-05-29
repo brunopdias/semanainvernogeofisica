@@ -36,12 +36,12 @@
 
 1. [Git](https://git-scm.com/):
 `sudo apt-get install git` (ubuntu)
-2. [GNU Octave](https://www.gnu.org/software/octave/): `sudo apt-get install` octave* (ubuntu)
+2. [GNU Octave](https://www.gnu.org/software/octave/): `sudo apt-get install octave` (ubuntu)
 3. [Suitesparse](http://faculty.cse.tamu.edu/davis/suitesparse.html): `sudo apt-get install libsuitesparse-dev` (ubuntu)
 4. [Madagascar](http://www.ahay.org/):
  [Download](http://www.ahay.org/wiki/Download), [Pré-Requisitos](http://www.ahay.org/wiki/Advanced_Installation#Platform-specific_installation_advice), [Instalação](http://www.ahay.org/wiki/Installation), [Tutorial](http://www.ahay.org/wiki/Tutorial)
 
-**Atenção!** É necessária a instalação da versão de desenvolvimento do Madagascar: *git clone https://github.com/ahay/src RSFSRC*
+**Atenção!** É necessária a instalação da versão de desenvolvimento do Madagascar: `git clone https://github.com/ahay/src RSFSRC`
 
 ---------------------------------
 
@@ -59,13 +59,28 @@
 
 ### Recursos Externos
 
-#### Consórcio SEISCOPE: [Seiscope I](http://seiscope.oca.eu), [Seiscope II](http://seiscope2.osug.fr)
+##### Consórcio SEISCOPE: [Seiscope I](http://seiscope.oca.eu), [Seiscope II](http://seiscope2.osug.fr)
 
 - Modelagem e Inversão 2D frequência: FWT2D, TOY2DAC
 - Toolbox de Otimização: SEISCOPE OPTIMIZATION TOOLBOX
 
-#### Geophysical Institute of Karlsruhe Institute of Technology (GPI/KIT) [Software](http://www.gpi.kit.edu/english/Software.php)
+##### Geophysical Institute of Karlsruhe Institute of Technology (GPI/KIT) [Software](http://www.gpi.kit.edu/english/Software.php)
 
-#### Madagascar [Site](http://ahay.org/wiki/Main_Page/), [Repositório](https://github.com/ahay/)
+##### Madagascar: [Site](http://ahay.org/wiki/Main_Page/), [Repositório](https://github.com/ahay/)
 
-#### [PySIT: Seismic Inversion Toolbox in Python](http://pysit.readthedocs.io/en/latest/)
+- Modelagem acústica/elástica 2D/3D tempo: sfawefd2d, sfawefd3d, sfewedf2d, sfewefd3d
+- Modelagem/inversão acústica 2D frequência: sfhelmlu, sfhelm2D_fwi
+
+##### [The Rice Inversion Project](http://trip.rice.edu/)
+
+##### [PySIT: Seismic Inversion Toolbox in Python](http://pysit.readthedocs.io/en/latest/)
+
+##### [Homepage of Daniel Köhn](http://www.geophysik.uni-kiel.de/~dkoehn/index.htm)
+
+- [Repositório](https://github.com/daniel-koehn): FWI 2D Viscoelástico
+
+##### [Homepage of Jan Thorbecke](https://janth.home.xs4all.nl/)
+
+- [Repositório](https://github.com/JanThorbecke/OpenSource)
+- [Modelagem 2D acústica/visco-elástica](https://janth.home.xs4all.nl/Software/Software.html)
+- [Curso HPC](https://janth.home.xs4all.nl/HPCourse/index.html)
