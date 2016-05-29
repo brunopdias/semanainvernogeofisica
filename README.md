@@ -3,6 +3,8 @@
 
 **Bruno Pereira Dias, André Bulcão e Djalma Manoel Soares Filho**
 
+---------------------------------
+
 ### Ementa do Curso
 
 #### Dia 1
