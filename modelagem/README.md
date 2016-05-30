@@ -4,11 +4,14 @@ Modelagem
 Exemplos: [madagascar](m8r)
 ---------------------------
 
-**Execute no diretório:**
+**Execute nos diretórios:**
 ```python
-scons
-scons view
+scons       # executar
+scons view  # vizualizar
+scons -c    # limpar
 ```
+
+
 
 #### Modelagem Acústica no Domínio do Tempo
 
@@ -30,3 +33,13 @@ scons view
 #### Migração Reversa no Tempo (RTM)
 
 - Modelo de Duas Camadas: [rtm_two_layers](m8r/rtm_two_layers)
+
+-------------------------
+
+**Comandos adicionais:**
+```bash
+scons -n                     # listar execução (dry run)
+scons -c                     # limpar execução
+export OMP_NUM_THREADS=8     # especificar número de threads = 8
+export DATAPATH=/data/path/  # especificar diretório dos dados
+```
