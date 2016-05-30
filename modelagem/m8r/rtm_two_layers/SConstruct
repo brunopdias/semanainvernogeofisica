@@ -21,7 +21,7 @@ def make_homog_model(n1,n2,d1,d2,mag,model,dpath):
 def make_reflector(model,par):
     Flow(model,None,
          ''' spike n1=%(nz)d d1=%(dz)g label1="Depth" unit2="m"
-                   n2=%(nx)d d2=%(dx)g label2="Distance" unit2="m" 
+                   n2=%(nx)d d2=%(dx)g label2="Distance" unit2="m"
                    mag=%(vel)g,500.  k1=1,%(k1)d l1=%(nz)d,%(k1)d nsp=2 ''' %(par))
 
 ## Make two layer model
@@ -126,7 +126,6 @@ def modeling(sismo, snap, wav, sou, rec, vel, den, par, **kwargs):
 
 #plot snapshot
 def snap_plot(snap, **kwargs):
-
     Result('plot-'+snap, snap,
            ''' put label1='Depth' label2='Distance'
                unit1='m' unit2='m' title="%s" |
@@ -134,10 +133,15 @@ def snap_plot(snap, **kwargs):
 
 #plot seismogram (shot)
 def sismo_plot(sismo, perc):
-
     Result('plot-'+sismo, sismo,
-           '''transp plane=23 | transp plane=12 |put title="%s"|
+           '''transp plane=12 |put title="%s"|
               grey pclip=%f gainpanel=e scalebar=y '''%(sismo,perc))
+
+#plot image (migration)
+def image_plot(image, perc):
+    Result('plot-'+image, image,
+           '''put title="%s"|
+              grey pclip=%f gainpanel=e scalebar=y '''%(image,perc))
 
 #plot model
 def model_plot(model,title,bias=1500.):
@@ -186,6 +190,8 @@ par=dict(
     ox=0.0,
     dx=20.,
     dz=20.,
+    olayer=0.,    # layer nodes origin
+    dlayer=1280., # layer nodes
     lz='Depth',
     lx='Distance',
     uz='m',
@@ -203,7 +209,7 @@ dl=1.5*sqrt(6)/PI/par['fpeak']
 
 # Create Layers
 layers = ((0.01,0.01,0.01,0.01,0.01),
-        (2000.,2000.,2000.,2000.,2000.))
+        (2000.,2000.,1800.,2100.,2000.))
 
 n1 = len(layers[0])
 n2 = len(layers)
@@ -215,7 +221,7 @@ Flow('layers',None,
      echo %s
      n1=%g n2=%g o1=%g d1=%g
      data_format=ascii_float in=$TARGET
-     ''' % (layers1,n1,n2,par['ox'],par['dx'] ))
+     ''' % (layers1,n1,n2,par['olayer'],par['dlayer'] ))
 
 # Create Layers
 suffix='_NZ'+str(par['nz'])+'_NX'+str(par['nx'])
@@ -224,10 +230,11 @@ suffix='_NZ'+str(par['nz'])+'_NX'+str(par['nx'])
 vp='vp_'+model+suffix
 rho='rho_'+model+suffix
 
-#make_two_layer_model('layers',par,vpval,vp,dpath)
-#make_two_layer_model('layers',par,rhoval,rho,dpath)
+make_two_layer_model('layers',par,vpval,vp,dpath)
+make_two_layer_model('layers',par,rhoval,rho,dpath)
 
-make_reflector(vp,par)
+#make_reflector(vp,par)
+#make_reflector(rho,par)
 
 # model plot
 model_plot(vp,"Vp",2500.)
@@ -284,11 +291,15 @@ for j in range(start, end+1):
     # source wavefield (z,x,t)
     wfshot='snap'+fshot
     modeling(fshot,wfshot, wavfile, sfile, rfile, vp, rho, par)
-    
+
+    sismo_plot(fshot,99.9)
+
     # reverse data
     rshot = 'r'+fshot
     Flow(rshot,fshot,'''transp plane=12 | put o2=%d |   mutter v0=3500. t0=0.75 |
     transp plane=12 | reverse which=2 opt=i verb=y  '''%(-offset))
+
+    sismo_plot(rshot,99.9)
 
     # reverse in time source wavefield
     rfshot='r'+wfshot
@@ -300,16 +311,14 @@ for j in range(start, end+1):
     modeling(rout,afshot, rshot, rfile, rfile, vp, rho, par)
 
     # conventional (cross-correlation zero-lag) imaging condition
-    imag='imag'+model+'-'+str(j)
+    imag='imagem-'+model+'-'+str(j)
     Flow(imag,[rfshot,afshot],
          'xcor2d uu=${SOURCES[1]} axis=3 verb=y nbuf=%(nbuf)d' % par)
 
-    # plotting registered data
+    # plot image
+    image_plot(imag,99.9)
     #snap_plot(wfshot)
-    #sismo_plot(fshot,99)
 
-
-# sftransp plane=12 < shot-default-1.rsf  | sfput o2=-2560 | sfmutter half=n v0=1450 t0=0.2 | sfimage perc=99  &
 # concatenate data and store permanently
 
 dpath=""

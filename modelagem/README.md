@@ -7,7 +7,7 @@ Exemplos: [madagascar](m8r)
 **Execute nos diretórios:**
 ```python
 scons       # executar
-scons view  # vizualizar
+scons view  # visualizar
 scons -c    # limpar
 ```
 
