@@ -4,20 +4,20 @@ Modelagem
 Exemplos: [octave](octave)
 --------------------------
 
-**Execute no diretório:**
+**Execute no diretório:** `octave`
 ```matlab
 octave:1> objective_function
 Choose Objective function:
-1-> Quadratic; 2-> Rosenbrock:1
+1-> Quadratic; 2-> Rosenbrock: 2
 
 
 octave:2> random_walk
 sopt = Random Walk Method
-Give the first component of initial point :-1
-Give the second component of initial point:1
+Give the first component of initial point : -1
+Give the second component of initial point: 1
 Give the step length:0.1
-Give the minimum allowable step length:0.001
-Maximum number of iterations:1000
+Give the minimum allowable step length: 0.001
+Maximum number of iterations: 1000
 The optimum point is:
 
    1.0206   1.0442
