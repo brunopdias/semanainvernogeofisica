@@ -18,6 +18,7 @@ def make_homog_model(n1,n2,d1,d2,mag,model,dpath):
     ''' spike n1=%d n2=%d d1=%g d2=%g mag=%g datapath=%s '''%(n1,n2,d1,d2,mag,dpath))
 
 ## Make two layer model
+### alternative interpolation method: sfremap1
 def make_two_layer_model(layers,par,value,model,dpath):
     Flow(model,layers,
     ''' spline o1=%g d1=%g n1=%d |
@@ -222,13 +223,15 @@ par=dict(
     nx=512,
     nz=512,
     jsnap=200,
-    jdata=8,
+    jdata=1,
     nb=100,
     fpeak=16.,
     oz=0.0,
     ox=0.0,
     dx=10.,
     dz=10.,
+    olayer=0.,    # layer nodes origin
+    dlayer=1280., # layer nodes spacing
     lz='Depth',
     lx='Distance',
     uz='m',
@@ -255,9 +258,9 @@ layers1 = string.join(map(arr2str,layers),' ')
 Flow('layers',None,
      '''
      echo %s
-     n1=%g n2=%g o1=%g d1=%g
+     n1=%g n2=%g o1=%g d1=%g d2=1 o2=0
      data_format=ascii_float in=$TARGET
-     ''' % (layers1,n1,n2,par['ox'],par['dx'] ))
+     ''' % (layers1,n1,n2,par['olayer'],par['dlayer'] ))
 
 # Create Layers
 suffix='_NZ'+str(par['nz'])+'_NX'+str(par['nx'])

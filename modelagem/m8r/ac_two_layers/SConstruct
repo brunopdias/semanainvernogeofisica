@@ -17,6 +17,7 @@ def make_homog_model(n1,n2,d1,d2,mag,model,dpath):
     %(n1,n2,d1,d2,mag,dpath))
 
 ## Make two layer model
+### alternative interpolation method: sfremap1
 def make_two_layer_model(layers,par,value,model,dpath):
     Flow(model,layers,
     ''' spline o1=%g d1=%g n1=%d |
@@ -128,7 +129,7 @@ def snap_plot(snap, **kwargs):
 def sismo_plot(sismo, perc):
 
     Result('plot-'+sismo, sismo,
-           '''transp plane=23 | transp plane=12 |put title="%s"|
+           '''transp plane=12 |put title="%s"|
               grey pclip=%f gainpanel=e scalebar=y '''%(sismo,perc))
 
 #plot model
@@ -169,13 +170,15 @@ par=dict(
     nx=512,
     nz=512,
     jsnap=200,
-    jdata=8,
+    jdata=1,
     nb=100,
     fpeak=16.,
     oz=0.0,
     ox=0.0,
     dx=10.,
     dz=10.,
+    olayer=0.,    # layer nodes origin
+    dlayer=1280., # layer nodes spacing
     lz='Depth',
     lx='Distance',
     uz='m',
@@ -191,7 +194,7 @@ dl=1.5*sqrt(6)/PI/par['fpeak']
 
 
 # Create Layers
-layers = ((0.01,0.01,0.01,0.01,0.01),
+layers = ((0.1,0.1,0.1,0.1,0.1),
         (2000.,2000.,2000.,2000.,2000.))
 
 n1 = len(layers[0])
@@ -202,9 +205,9 @@ layers1 = string.join(map(arr2str,layers),' ')
 Flow('layers',None,
      '''
      echo %s
-     n1=%g n2=%g o1=%g d1=%g
+     n1=%g n2=%g o1=%g d1=%g d2=1 o2=0
      data_format=ascii_float in=$TARGET
-     ''' % (layers1,n1,n2,par['ox'],par['dx'] ))
+     ''' % (layers1,n1,n2,par['olayer'],par['dlayer'] ))
 
 # Create Layers
 suffix='_NZ'+str(par['nz'])+'_NX'+str(par['nx'])
@@ -273,9 +276,7 @@ for j in range(start, end+1):
 
     # plotting registered data
     snap_plot(wfshot)
-    #sismo_plot(fshot,99)
-
-
+    sismo_plot(fshot,99)
 
 # concatenate data and store permanently
 
