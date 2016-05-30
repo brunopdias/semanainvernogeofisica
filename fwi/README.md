@@ -28,10 +28,12 @@ in="marmvel.bin"
 esize=4 type=float form=native
 n1=150         d1=0.02        o1=0          
 n2=460         d2=0.02        o2=0          
-	69000 elements 276000 bytes```
+	69000 elements 276000 bytes
+```
 
 > **Forneça permissão de execução:** `chmod 755 commands.sh`
 
 > **Execute o shell script:** `./commands.sh`
 
-![FWI: Modelo Marmousi](../figures/marm_ani.gif)
+
+![FWI Modelo Marmousi](../figures/marm_ani.gif)
