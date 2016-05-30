@@ -6,7 +6,9 @@ Full Waveform Inversion: Introdução e Aplicações
 
 ![FWI: Modelo Marmousi](figures/marm_ani.gif)
 
-> **Clone o repositório!** Em um terminal digite:  `git clone https://github.com/brunopdias/semanainvernogeofisica.git`
+> **Clone o repositório!**  Em um terminal digite:
+
+>  `git clone https://github.com/brunopdias/semanainvernogeofisica.git`
 
 ---------------------------------
 
@@ -50,7 +52,9 @@ Pré-Requisitos / Instalação do Sistema
 4. [Madagascar](http://www.ahay.org/):
  [Download](http://www.ahay.org/wiki/Download), [Pré-Requisitos](http://www.ahay.org/wiki/Advanced_Installation#Platform-specific_installation_advice), [Instalação](http://www.ahay.org/wiki/Installation), [Tutorial](http://www.ahay.org/wiki/Tutorial)
 
-> **Atenção!** É necessária a instalação da versão de desenvolvimento do Madagascar: `git clone https://github.com/ahay/src RSFSRC`
+> **Atenção!** É necessária a instalação da versão em desenvolvimento do Madagascar:
+
+> `git clone https://github.com/ahay/src RSFSRC`
 
 ---------------------------------
 
