@@ -1,11 +1,17 @@
-# Full Waveform Inversion: Introdução e Aplicações
+Full Waveform Inversion: Introdução e Aplicações
+================================================
 **VII Semana de Inverno de Geofísica: 6 a 8 de Julho/2016 — INCT-GP, UNICAMP, Campinas, SP**
 
 **Bruno Pereira Dias, André Bulcão e Djalma Manoel Soares Filho**
 
+![FWI: Modelo Marmousi](figures/marm_ani.gif)
+
+> **Clone o repositório!** Em um terminal digite:  `git clone https://github.com/brunopdias/semanainvernogeofisica.git`
+
 ---------------------------------
 
-### Ementa do Curso
+Ementa do Curso
+---------------
 
 #### Dia 1
 
@@ -34,7 +40,8 @@
 
 ---------------------------------
 
-### Pré-Requisitos / Instalação do Sistema
+Pré-Requisitos / Instalação do Sistema
+--------------------------------------
 
 1. [Git](https://git-scm.com/):
 `sudo apt-get install git` (ubuntu)
@@ -43,11 +50,12 @@
 4. [Madagascar](http://www.ahay.org/):
  [Download](http://www.ahay.org/wiki/Download), [Pré-Requisitos](http://www.ahay.org/wiki/Advanced_Installation#Platform-specific_installation_advice), [Instalação](http://www.ahay.org/wiki/Installation), [Tutorial](http://www.ahay.org/wiki/Tutorial)
 
-**Atenção!** É necessária a instalação da versão de desenvolvimento do Madagascar: `git clone https://github.com/ahay/src RSFSRC`
+> **Atenção!** É necessária a instalação da versão de desenvolvimento do Madagascar: `git clone https://github.com/ahay/src RSFSRC`
 
 ---------------------------------
 
-### Referências
+Referências
+-----------
 
 * FICHTNER, A., *Full Seismic Waveform Modelling and Inversion*. Berlin, New York: Springer-Verlag, 2010.
 * CHEN, P., LEE, E.-J., *Full-3D Seismic Waveform Inversion: Theory, Software and Practice*, Springer International Publishing, 2015.
@@ -59,7 +67,8 @@
 
 ---------------------------------
 
-### Recursos Externos
+Recursos Externos
+-----------------
 
 ##### Consórcio SEISCOPE: [Seiscope I](http://seiscope.oca.eu), [Seiscope II](http://seiscope2.osug.fr)
 
@@ -76,6 +85,8 @@
 ##### [The Rice Inversion Project](http://trip.rice.edu/)
 
 ##### [PySIT: Seismic Inversion Toolbox in Python](http://pysit.readthedocs.io/en/latest/)
+
+##### [A numerical tour of wave propagation](http://www.reproducibility.org/RSF/book/xjtu/primer/paper_html/) por Pengliang Yang
 
 ##### [Homepage of Daniel Köhn](http://www.geophysik.uni-kiel.de/~dkoehn/index.htm)
 

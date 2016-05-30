@@ -1,8 +1,10 @@
-# Modelagem
+Modelagem
+=========
 
-### Exemplos: [madagascar](m8r)
+Exemplos: [madagascar](m8r)
+---------------------------
 
-Execute no diretório:
+**Execute no diretório:**
 ```python
 scons
 scons view

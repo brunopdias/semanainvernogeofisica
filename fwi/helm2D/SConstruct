@@ -1,0 +1,58 @@
+import os, sys, re, string
+sys.path.append('../../framework')
+
+
+progs = '''
+helm2D_forward
+helm2D_bornsyn
+helm2D_genshot
+helm2D_genrec
+helm2D_rtm
+helm2D_lsm
+helm2D_fwi
+'''
+try:  # distributed version
+    Import('env root pkgdir bindir')
+    env = env.Clone()
+except: # local version
+    glob_build = False # scons command launched in the local directory
+    srcroot = os.environ.get('RSFSRC', '../..')
+    sys.path.append(os.path.join(srcroot,'framework'))
+    import bldutil
+    env = bldutil.Debug()
+    root = None
+    bindir = libdir = pkgdir = None
+
+src = Glob('[a-z]*.c')
+
+sparsepath = env.get('SPARSEPATH')
+sparselibs = env.get('SPARSELIBS')
+
+env.Prepend(CPPPATH=[srcroot+'/include'],
+            LIBPATH=[srcroot+'/lib'],
+            LIBS=[env.get('DYNLIB','')+'rsfpwd',
+                  env.get('DYNLIB','')+'rsf'])
+
+if sparsepath and sparselibs:
+    env.Prepend(CPPPATH=sparsepath,
+                LIBS=sparselibs)
+    
+for source in src:
+    inc = env.RSF_Include(source,prefix='')
+    if sparselibs:
+        obj = env.StaticObject(source)
+        env.Depends(obj,inc)
+
+mains = Split(progs)
+for prog in mains:
+    sources = ['M' + prog]
+    bldutil.depends(env,sources,'M'+prog)
+
+    if sparsepath and sparselibs:
+        prog = env.Program(prog,map(lambda x: x + '.c',sources))
+    else:
+        prog = env.RSF_Place('sf'+prog,None,var='SPARSELIBS',
+                             package='suitesparse')
+        
+    if root:
+        env.Install(bindir,prog)
