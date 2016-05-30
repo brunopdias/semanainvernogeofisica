@@ -212,7 +212,7 @@ for j in range(start, end+1):
     create_ricker(wavfile, par,dl,0)
     #create_src(wavfile, par,dl, False)
 
-    #plot_sig_spec(wavfile, 60, True)
+    plot_sig_spec(wavfile, 60, True)
 
     # create sources positions
     sfile='source_'+str(j)

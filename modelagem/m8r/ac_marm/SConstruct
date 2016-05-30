@@ -122,19 +122,19 @@ def model_plot(model,title,bias=1500.,minval=0.):
 
 ## model parameters ##
 
-# get model from command line
-model = str(ARGUMENTS.get('model','marmvel')) # model properties
-
+# Fetch Files from repository
+model='marmvel'
+Fetch('marmvel.hh',"marm")
 
 # modeling parameters
 par=dict(
     ot=0.0,
     nt=2000,
     dt=0.002,  # 1e-3
-    nx=150,
-    nz=460,
+    nx=151,
+    nz=461,
     jsnap=200,
-    jdata=8,
+    jdata=1,
     nb=100,
     fpeak=8.,
     o1=0.0,
@@ -150,6 +150,12 @@ par=dict(
     )
 dl=1.5*sqrt(6)/PI/par['fpeak']
 
+
+# Convert Files to RSF and update headers
+Flow("marmvel",'marmvel.hh','''dd form=native |
+    window j1=5 j2=5 | put
+    label1=Depth label2=Distance unit1=m unit2=m
+    d1=%(d1)g d2=%(d2)g''' % (par))
 
 ## make homogeneous models
 vp=model
@@ -193,14 +199,13 @@ for j in range(start, end+1):
     create_ricker(wavfile, par,dl,0)
     #create_src(wavfile, par,dl, False)
 
-    #plot_sig_spec(wavfile, 60, True)
+    plot_sig_spec(wavfile, 60, True)
 
     # create sources positions
     sfile='source_'+str(j)
     all_sfile=all_sfile+sfile+' '
 
     point_src(sfile, xsrc, par['zsrc'])
-
 
     # creating registered data: shot-gather
     fshot='shot-'+model+'-'+str(j)
@@ -212,8 +217,6 @@ for j in range(start, end+1):
     # plotting registered data
     snap_plot(wfshot)
     sismo_plot(fshot,99)
-
-
 
 # concatenate data and store permanently
 
