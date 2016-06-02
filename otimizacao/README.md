@@ -28,4 +28,31 @@ The optimum value is:
 octave:3> plot_obf
 ```
 
-![Otimização: Função Rosenbrock via Caminho Aleatório](../figures/optimization.png)
+![Otimização: Função Rosenbrock via Caminho Aleatório](../figures/optimization_rosenbrock_random_walk.png)
+
+Exemplos: [matlab](matlab)
+--------------------------
+A conversão dos scripts *octave* para *Matlab* foi realizada pelo **Felipe Timóteo da Costa**
+
+**Execute no Matlab:
+```matlab
+>> steepest_descent
+sopt = Steepest-Descent Method
+Give the starting point: first component: 2
+Give the starting point: second component: -1
+Choose Objective function:
+1-> Quadratic; 2-> Rosenbrock:1
+Number of iterations:
+ 53
+Solution:
+  -1.00000   1.50000
+Function value:
+-1.2500
+Norm of fprime:
+   8.2497e-07
+
+>> plot_obf
+
+```
+
+![Otimização: Função Quadrátoca via Método Gradiente](../figures/optimization_quadratic_steepest_descent.png)
