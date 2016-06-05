@@ -1,0 +1,285 @@
+from rsf.proj import *
+from math import pi as PI
+from math import sqrt
+
+# get enviroment datapath (or choose datapath)
+from os import environ as osenv
+dpath=osenv.get('DATAPATH')
+#dpath=/home/
+
+
+#-------------------------------------------------------------
+def arr2str(array,sep=' '):
+    return string.join(map(str,array),sep)
+
+## Make homogeneous model
+def make_homog_model(model,par):
+    Flow(model,None, ''' spike n1=%(nz)d n2=%(nx)d d1=%(dz)g d2=%(dx)g mag=%(vel)g'''
+         %(par))
+
+## Make reflector
+def make_reflector(model,par):
+    Flow(model,None,
+         ''' spike n1=%(nz)d d1=%(dz)g label1="Depth" unit2="m"
+                   n2=%(nx)d d2=%(dx)g label2="Distance" unit2="m" 
+                   mag=%(vel)g,500.  k1=1,%(k1)d l1=%(nz)d,%(l1)d 
+                   k2=1,%(k2)d l2=%(nx)d,%(l2)d nsp=2 ''' %(par))
+
+
+# create ricker wavelet
+def create_ricker(wav, par,dl,deriv, **kwargs):
+    par['kt']=dl
+    par['da']=PI*par['fpeak']
+    par['da2']=par['da']*par['da']
+    if   (deriv == -2):
+        Flow(wav, None,
+             '''spike nsp=1 mag=0 k1=0
+                o1=%(ot)f d1=%(dt)f n1=%(nt)d |
+                sfmath output="-(0.5/(%(da2)f))*exp(-%(da2)f*(x1-%(kt)f)^2)" |
+                transp plane=12|
+                put label1="t" '''%(par))
+    elif (deriv == -1):
+        Flow(wav, None,
+             '''spike nsp=1 mag=0 k1=0
+                o1=%(ot)f d1=%(dt)f n1=%(nt)d|
+                sfmath output="(x1-%(kt)f)*exp(-%(da2)f*(x1-%(kt)f)^2)" |
+                transp plane=12|
+                put label1="t" '''%(par))
+    elif (deriv == 0 ):
+        Flow(wav, None,
+             '''spike nsp=1 mag=0 k1=0
+                o1=%(ot)f d1=%(dt)f n1=%(nt)d|
+                sfmath output="( 1 - 2*(%(da2)f*(x1-%(kt)f)^2) )*
+                               exp( -%(da2)f*(x1-%(kt)f)^2 )" |
+                transp plane=12|
+                put label1="t" '''%(par))
+    elif (deriv == 1 ):
+        Flow(wav, None,
+             '''spike nsp=1 mag=0 k1=0
+                o1=%(ot)f d1=%(dt)f n1=%(nt)d|
+                sfmath output="( -6 + 4*%(da2)f*(x1-%(kt)f)^2 )*
+                               (x1-%(kt)f)*%(da2)f *
+                               exp( -%(da2)f*(x1-%(kt)f)^2 )" |
+                transp plane=12|
+                put label1="t" '''%(par))
+    else:
+        print "Derivative order not available!"
+
+
+#plot signal and its spectrum (1d only)
+def plot_sig_spec(sig, fcut, transpose, **kwargs):
+    if transpose:
+        ssig='transp-'+sig
+        Flow(ssig,  sig, "transp plane=12")
+    else:
+        ssig=sig
+
+    Flow('spec-'+ssig, ssig,
+         "spectra|put label1='Frequency' title='Spectrum'  ")
+
+    Plot('plot-spec-'+ssig, 'spec-'+ssig,
+         "window max1=%f |graph"%(fcut))
+
+    Plot('plot-'+ssig, ssig, "put title='Signature' | graph")
+
+    Result('plot-sig+spec-'+ssig,
+           ['plot-'+ssig, 'plot-spec-'+ssig],
+           'SideBySideIso')
+
+#create a horizontal line of receivers
+def rec_hline(rec, oor, nr, dr, zr):
+    Flow('tmp-x-'+rec, None,
+         "math n1=%d d1=%f o1=%f output='x1'"%(nr, dr, oor))
+
+    Flow('tmp-z-'+rec, None,
+         "math n1=%d d1=%f o1=%f output='%f'"%(nr, dr, oor, zr))
+
+    Flow(rec, ['tmp-x-'+rec,'tmp-z-'+rec],
+         """cat axis=2 ${SOURCES[1]} space=n|transp|
+            put label1="" unit1="" label2="" unit2="" """)
+
+#create location files file for a point source
+def point_src(src, xsrc, zsrc):
+    Flow(src, None,
+         "spike nsp=2 mag=%f,%f n1=2 k1=1,2"%(xsrc,zsrc))
+
+#acoustic modeling
+def modeling(sismo, snap, wav, sou, rec, vel, par, **kwargs):
+
+    Flow([sismo, snap], [wav, vel, rec, sou],
+         """awefd2d
+            dabc=y verb=y snap=y fsrf=n cden=y
+            nb=%(nb)d jsnap=%(jsnap)d jdata=%(jdata)d
+            vel=${SOURCES[1]} rec=${SOURCES[2]} sou=${SOURCES[3]}
+            wfl=${TARGETS[1]}"""%(par))
+
+#plot snapshot
+def snap_plot(snap,jsnap=20, **kwargs):
+
+    Result('plot-'+snap, snap,
+           ''' window j3=%d |
+               put label1='Depth' label2='Distance'
+               unit1='m' unit2='m' title="%s" |
+               grey scalebar=y gainpanel=a'''%(jsnap,snap))
+
+#plot seismogram (shot)
+def sismo_plot(sismo, perc):
+
+    Result('plot-'+sismo, sismo,
+           ''' transp plane=12 |put title="%s"|
+              grey pclip=%f gainpanel=e scalebar=y '''%(sismo,perc))
+
+#plot model
+def model_plot(model,title,bias=1500.):
+    Result('plot-'+model,model,
+           ''' grey pclip=100 gainpanel=e scalebar=y color=j
+               allpos=y title=%s bias=%g '''%(title,bias))
+
+## model parameters ##
+
+# get model from command line
+model = 'perturbation'
+
+# modeling parameters
+par=dict(
+    ot=0.0,
+    nt=1500,
+    dt=0.002,  # 1e-3
+    nx=256,
+    nz=256,
+    k1=128,
+    l1=138,  # 128 132
+    k2=150  ,    # 1 126
+    l2=170,  # 256 130
+    vel=2500.,
+    jsnap=1,
+    jdata=1,
+    nb=100,
+    fpeak=8.,
+    oz=0.0,
+    ox=0.0,
+    dx=20.,
+    dz=20.,
+    lz='Depth',
+    lx='Distance',
+    uz='m',
+    ux='m',
+    srad=10,      # smooth radius
+    nrec=512,     # number of receivers
+    dr=10.,       # receiver interval (m)
+    zr=10.,       # receiver depth (m)
+    zsrc=50.,   # source depth (m)
+    dshot=10.,    # shot interval (m)
+    nbuf=8,       # xcor buffer
+    )
+dl=1.5*sqrt(6)/PI/par['fpeak']
+
+
+# Create Layers
+layers = ((0.01,0.01,0.01,0.01,0.01),
+        (2000.,2000.,2000.,2000.,2000.))
+
+n1 = len(layers[0])
+n2 = len(layers)
+
+layers1 = string.join(map(arr2str,layers),' ')
+
+Flow('layers',None,
+     '''
+     echo %s
+     n1=%g n2=%g o1=%g d1=%g
+     data_format=ascii_float in=$TARGET
+     ''' % (layers1,n1,n2,par['ox'],par['dx'] ))
+
+# Create Layers
+suffix='_NZ'+str(par['nz'])+'_NX'+str(par['nx'])
+
+## make homogeneous models
+vp='vp_'+model+suffix
+vp_homog='vp_homog'+suffix
+
+make_reflector(vp,par)
+make_homog_model(vp_homog,par)
+
+# model plot
+model_plot(vp,"Vp model with perturbation",2500.)
+model_plot(vp_homog,"Homogeneous Vp model",2500.)
+
+## finite difference modeling
+start  = int(ARGUMENTS.get('start_shot', '1')) # start shot
+end    = int(ARGUMENTS.get('end_shot', '1')) # end shot
+offset = float(ARGUMENTS.get('off', '2560.0'))
+nexp=end-start+1
+
+
+#shot position loop [start, end]
+for j in range(start, end+1):
+
+    # source position
+    xsrc = offset + (j-1)*par['dshot']
+    print xsrc
+
+    #receiver line
+    rfile='receivers_'+str(j)
+
+    oor=0.
+
+    rec_hline(rfile, oor, par['nrec'],
+              par['dr'], par['zr'])
+
+    #create wavelets
+    wavfile='wavelet_'+str(j)
+    create_ricker(wavfile, par,dl,0)
+    plot_sig_spec(wavfile, 60, True)
+
+    # create sources positions
+    sfile='source_'+str(j)
+    point_src(sfile, xsrc, par['zsrc'])
+
+    # model data (z,x,t)
+    dshot='dshot-'+model+'-'+str(j)
+    wdshot='snap-'+dshot
+    modeling(dshot,wdshot, wavfile, sfile, rfile, vp, par)
+    
+    # forward (source) wavefield
+    fshot='fshot-'+model+'-'+str(j)
+    wfshot='snap-'+fshot
+    modeling(fshot,wfshot, wavfile, sfile, rfile, vp_homog, par)
+
+    # calculate resitdual and reverse data
+    rshot='rshot-'+model+'-'+str(j)
+    Flow(rshot,[fshot,dshot],
+         '''math d=${SOURCES[1]} output="input-d" |
+            costaper nw1=25 nw2=25 |
+            reverse which=2 opt=i verb=y  ''')
+
+    # reverse in time source wavefield
+    rfshot='r'+wfshot
+    Flow(rfshot,wfshot,'''reverse which=4 opt=i verb=y memsize=200''')
+
+    # adjoint (receiver) wavefield (z,x,t)
+    ashot='ashot-'+model+'-'+str(j)
+    washot='snap-'+ashot
+    modeling(ashot,washot, rshot, rfile, rfile, vp_homog, par)
+
+    # conventional (cross-correlation zero-lag) imaging condition
+    imag='imag'+model+'-'+str(j)
+    Flow(imag,[rfshot,washot],
+         'xcor2d uu=${SOURCES[1]} axis=3 verb=y nbuf=%(nbuf)d' % par)
+
+    # plotting registered data
+    snap_plot(wdshot)
+    sismo_plot(dshot,95)
+
+    snap_plot(wfshot)
+    sismo_plot(fshot,95)
+    
+    sismo_plot(rshot,99)
+
+    snap_plot(washot)
+
+
+    Result('plot-'+imag,imag, ' grey title="Gradient" ')
+
+
+End()

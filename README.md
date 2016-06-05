@@ -38,7 +38,7 @@ Ementa do Curso
 - Regularização  e Pré-Condicionamento do Grandiente
 - Aspectos Práticos
 - Inversão multi-parâmetros: efeitos de anisotropia, absorção e elasticidade
-- **Aplicação Numérica 3: [FWI](fwi)**
+- **Aplicação Numérica 3: [Inversão](inversao)**
 
 ---------------------------------
 
