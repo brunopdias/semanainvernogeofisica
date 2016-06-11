@@ -45,11 +45,14 @@ def plot_cabs(wfl):
     Result('cabs-'+wfl,wfl,'''transp plane=34 | cabs | 
             grey title="Cmplx Absolute" scalebar=y color=j''')
 
+# Fetch Files from repository
+model='marmvel'
+Fetch('marmvel.hh',"marm")
 
 # Modeling parameters
 par=dict(
-    nz=150,       # model z dimension
-    nx=460,       # model x dimension
+    nz=151,       # model z dimension
+    nx=461,       # model x dimension
     dz=20.,       # model z interval
     dx=20.,       # model x interval
     nf=5,         # number of frequencies
@@ -61,6 +64,13 @@ par=dict(
     xsrc=50,      # source x position (grid point)
     dpath=dpath   # datapath
     )
+
+# Convert Files to RSF and update headers
+Flow("marmvel",'marmvel.hh','''dd form=native |
+    window j1=5 j2=5 | put
+    label1=Depth label2=Distance unit1=m unit2=m
+    d1=%(dz)g d2=%(dx)g''' % (par))
+
 
 # Velocity model
 vel='marmvel'
