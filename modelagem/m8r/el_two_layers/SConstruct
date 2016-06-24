@@ -23,10 +23,11 @@ def make_two_layer_model(layers,par,value,model,dpath):
     Flow(model,layers,
     ''' spline o1=%g d1=%g n1=%d |
      unif2 o1=%g d1=%g n1=%d v00=%s |
-     dd form=native |
+     dd form=native | smooth rect1=%d rect2=%d |
      put label1=%s label2=%s unit1=%s unit2=%s
      datapath=%s '''%(par['ox'],par['dx'],par['nx'],
                         par['oz'],par['dz'],par['nz'],value,
+                        par['srad'],par['srad'],
                         par['lz'],par['lx'],par['uz'],par['ux'],
                         dpath))
 
@@ -181,13 +182,13 @@ def model_plot(model,title,bias=1500.):
 ## model parameters ##
 
 # get model from command line
-model = str(ARGUMENTS.get('model','iso-ac')) # model properties
+model = str(ARGUMENTS.get('model','iso-el')) # model properties
 
 if model == 'iso-ac':
     modpar=dict(vp1=2500.0,vs1=0000.0,rho1=1010.0,eps1=0.000,dlt1=0.000,
                 vp2=4000.0,vs2=0000.0,rho2=2000.0,eps2=0.000,dlt2=0.000)
 elif model == 'iso-el':
-    modpar=dict(vp1=2500.0,vs1=0000.0,rho1=1010.0,eps1=0.000,dlt1=0.000,
+    modpar=dict(vp1=2500.0,vs1=1000.0,rho1=1010.0,eps1=0.000,dlt1=0.000,
                 vp2=4000.0,vs2=2000.0,rho2=2000.0,eps2=0.000,dlt2=0.000)
 else:
     modpar=dict(vp1=2500.0,vs1=0000.0,rho1=1010.0,eps1=0.000,dlt1=0.000,
@@ -236,7 +237,7 @@ par=dict(
     lx='Distance',
     uz='m',
     ux='m',
-    srad=10,      # smooth radius
+    srad=5,      # smooth radius
     nrec=512,     # number of receivers
     dr=10.,       # receiver interval (m)
     zr=10.,       # receiver depth (m)
