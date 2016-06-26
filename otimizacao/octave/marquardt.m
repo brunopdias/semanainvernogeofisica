@@ -3,33 +3,27 @@
 %
 sopt="Marquardt Method";
 epsilon = 1.0e-6;
-nit = 1e3;
+ss0=0.1;
+nit = 1000;
 alpha1 = 1;
 
 clear pp
 more on
-x0(1) = input("Give the starting point: first component:");
-x0(2) = input("Give the starting point: second component:");
+x0(1) = input("Give the starting point: first component: ");
+x0(2) = input("Give the starting point: second component: ");
 i=1;
+pp(i,:) = x0(:);
 
-JJ = fpp(x0);
-f0 = f(x0);
 while((norm(fp(x0)) > epsilon) && (i < nit))
-  pp(i,:) = x0(:);
-  S = -(inv(JJ+alpha1*eye(size(JJ)))*fp(x0)')';
-  ss = 0.01;
-  x1 = x0+ss*S;
-  f1 = f(x1);
-  while(ss > epsilon)
-    while( (f(x0) - f(x1)) > 0)
-      x0 = x1;
-      x1 = x0+ss*S;
-    endwhile
-    x0 = x0-ss*S;
-    ss = 0.5*ss;
-  endwhile
-  x0=x1;
+  JJ = fpp(x0);
+  S = -(inv(JJ+alpha1*eye(size(JJ)))*fp(x0)')';     % Marquardt update
+  x1 = x0 + S;
+  if (  f(x1) > f(x0) )                             % backtracking if needed
+    x1 = backtrack(x0,S,ss0,epsilon);
+  end
+  x0 = x1;
   i=i+1;
+  pp(i,:) = x0(:);
 endwhile
 disp("Number of iterations:"),disp(i)
 disp("Solution:"),disp(x0)

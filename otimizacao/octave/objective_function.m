@@ -2,7 +2,7 @@
 % Objective function
 %
 disp("Choose Objective function:")
-obf = input("1-> Quadratic; 2-> Rosenbrock:");
+obf = input("1-> Quadratic; 2-> Rosenbrock: ");
 switch (obf)
   case 1
     % Quadratic function
