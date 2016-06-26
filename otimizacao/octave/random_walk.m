@@ -33,5 +33,4 @@ while(lambda > minlam)
 endwhile
 display("The optimum point is:"),disp(x1)
 display("The optimum value is:"),disp(f(x1))
-## fminsearch(@(x) x(1)-x(2)+ 2.*x(1)^2+ 2*x(1)*x(2) + x(2)^2 ,[-2,2])
-## fminunc(@(x) x(1)-x(2)+ 2.*x(1)^2+ 2*x(1)*x(2) + x(2)^2 ,[-2,2])
+

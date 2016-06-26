@@ -13,7 +13,6 @@ x0(2) = input("Give the starting point: second component: ");
 i=1;
 pp(i,:) = x0(:);
 while( (norm(fp(x0)) > epsilon) && (i < nit))     % gradient norm limit
-  pp(i,:) = x0(:);
   S = -fp(x0);                  % steepest-descent
   x0 = backtrack(x0,S,ss0,epsilon);
   i=i+1;
