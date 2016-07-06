@@ -19,23 +19,23 @@ Ementa do Curso
 
 - Introdução: Motivação / Apresentação Geral
 - Revisão do Métodos Sísmico
-- Equação da Onda Acústica
-- Modelagem Sísmica pelo Método das Difereças Finitas: Tempo x Frequência
 - Migração Sísmica
+- Equação da Onda Acústica
+- Modelagem Sísmica pelo Método das Diferenças Finitas: Tempo x Frequência
 - **Aplicação Numérica 1: [Modelagem](modelagem)**
 
 #### Dia 2
 
 - Métodos Iterativos de Otimização Não-Linear: método gradiente, gradiente conjugado, Gauss-Newton, Newton, Quasi-Newton (l-BFGS)
-- Método Adjunto no Tempo e na Frequência / Formulação do FWI
-- Algoritmo FWI / Cálculo do Gradiente
+- Salto de Ciclo
+- Método Multiescala
+- Regularização  e Pré-Condicionamento do Gradiente
 - **Aplicação Numérica 2: [Otimização](otimizacao)**
 
 #### Dia 3
 
-- Salto de Ciclo
-- Método Multiescala
-- Regularização  e Pré-Condicionamento do Grandiente
+- Método Adjunto no Tempo e na Frequência / Formulação do FWI
+- Algoritmo FWI / Cálculo do Gradiente
 - Aspectos Práticos
 - Inversão multi-parâmetros: efeitos de anisotropia, absorção e elasticidade
 - **Aplicação Numérica 3: [Inversão](inversao)**
