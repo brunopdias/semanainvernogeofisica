@@ -1,10 +1,3 @@
-![Full Waveform Inversion: Introdução e Aplicações](README_FWI.md)
-================================================
-**VII Semana de Inverno de Geofísica: 6 a 8 de Julho/2016 — INCT-GP, UNICAMP, Campinas, SP**
-
-**Bruno Pereira Dias, André Bulcão e Djalma Manoel Soares Filho**
-
-![FWI: Modelo Marmousi](figures/marm_ani.gif)
 
 > **Clone o repositório!**  Em um terminal digite:
 
@@ -12,33 +5,21 @@
 
 ---------------------------------
 
-Ementa do Curso
----------------
+[Point Spread Function: Aplicações na Geofísica](README_PSF.md)
+================================================
+**VIII Semana de Inverno de Geofísica: 19 a 21 de Julho/2017 — INCT-GP, UNICAMP, Campinas, SP**
 
-#### Dia 1
+**André Bulcão, Bruno Pereira Dias e Djalma Manoel Soares Filho**
 
-- Introdução: Motivação / Apresentação Geral
-- Revisão do Métodos Sísmico
-- Migração Sísmica
-- Equação da Onda Acústica
-- Modelagem Sísmica pelo Método das Diferenças Finitas: Tempo x Frequência
-- **Aplicação Numérica 1: [Modelagem](modelagem)**
+---------------------------------
 
-#### Dia 2
+[Full Waveform Inversion: Introdução e Aplicações](README_FWI.md)
+================================================
+**VII Semana de Inverno de Geofísica: 6 a 8 de Julho/2016 — INCT-GP, UNICAMP, Campinas, SP**
 
-- Métodos Iterativos de Otimização Não-Linear: método gradiente, gradiente conjugado, Gauss-Newton, Newton, Quasi-Newton (l-BFGS)
-- Salto de Ciclo
-- Método Multiescala
-- Regularização  e Pré-Condicionamento do Gradiente
-- **Aplicação Numérica 2: [Otimização](otimizacao)**
+**André Bulcão, Bruno Pereira Dias e Djalma Manoel Soares Filho**
 
-#### Dia 3
-
-- Método Adjunto no Tempo e na Frequência / Formulação do FWI
-- Algoritmo FWI / Cálculo do Gradiente
-- Aspectos Práticos
-- Inversão multi-parâmetros: efeitos de anisotropia, absorção e elasticidade
-- **Aplicação Numérica 3: [Inversão](inversao)**
+![FWI: Modelo Marmousi](figures/marm_ani.gif)
 
 ---------------------------------
 
@@ -57,47 +38,3 @@ Pré-Requisitos / Instalação do Sistema
 > `git clone https://github.com/ahay/src RSFSRC`
 
 ---------------------------------
-
-Referências
------------
-
-* FICHTNER, A., *Full Seismic Waveform Modelling and Inversion*. Berlin, New York: Springer-Verlag, 2010.
-* CHEN, P., LEE, E.-J., *Full-3D Seismic Waveform Inversion: Theory, Software and Practice*, Springer International Publishing, 2015.
-* NOCEDAL, J., WRIGHT, S. J., *Numerical Optimization*: 2a Ed. Berlin, New York: Springer-Verlag, 2006.
-* ALKHALIFAH, T. *Full Waveform Inversion: Where are the Anisotropic Parameters hiding?* EAGE, 2014.
-* PRATT, R. G., SHIN, C., HICKS, G. J., *Gauss-Newton and full Newton methods in frequency space seismic waveform inversion*, Geophys. J. Int., 133, pp. 341-362, 1998.
-* TARANTOLA, A., *Inversion of seismic reflection data in the acoustic approximation*, Geophysics, **49**, pp. 1259-1266, 1984.
-* VIRIEUX, J., OPERTO, S., *An overview of full-waveform inversion in exploration geophysics*. Geophysics, **74**, no. 6 pp. WCC1-WCC26. 2009.
-
----------------------------------
-
-Recursos Externos
------------------
-
-##### Consórcio SEISCOPE: [Seiscope I](http://seiscope.oca.eu), [Seiscope II](http://seiscope2.osug.fr)
-
-- Modelagem e Inversão 2D frequência: FWT2D, TOY2DAC
-- Toolbox de Otimização: SEISCOPE OPTIMIZATION TOOLBOX
-
-##### Geophysical Institute of Karlsruhe Institute of Technology (GPI/KIT) [Software](http://www.gpi.kit.edu/english/Software.php)
-
-##### Madagascar: [Site](http://ahay.org/wiki/Main_Page/), [Repositório](https://github.com/ahay/)
-
-- Modelagem acústica/elástica 2D/3D tempo: sfawefd2d, sfawefd3d, sfewedf2d, sfewefd3d
-- Modelagem/inversão acústica 2D frequência: sfhelmlu, sfhelm2D_fwi
-
-##### [The Rice Inversion Project](http://trip.rice.edu/)
-
-##### [PySIT: Seismic Inversion Toolbox in Python](http://pysit.readthedocs.io/en/latest/)
-
-##### [A numerical tour of wave propagation](http://www.reproducibility.org/RSF/book/xjtu/primer/paper_html/) por Pengliang Yang
-
-##### [Homepage of Daniel Köhn](http://www.geophysik.uni-kiel.de/~dkoehn/index.htm)
-
-- [Repositório](https://github.com/daniel-koehn): FWI 2D Viscoelástico
-
-##### [Homepage of Jan Thorbecke](https://janth.home.xs4all.nl/)
-
-- [Repositório](https://github.com/JanThorbecke/OpenSource)
-- [Modelagem 2D acústica/visco-elástica](https://janth.home.xs4all.nl/Software/Software.html)
-- [Curso HPC](https://janth.home.xs4all.nl/HPCourse/index.html)
