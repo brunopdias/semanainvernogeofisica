@@ -11,29 +11,28 @@ Ementa do Curso
 
 #### Dia 1
 
-**Módulo 1**
-- Introdução: Motivação / Apresentação Geral
-- Revisão do Métodos Sísmico
-- Migração Sísmica
+- **Módulo 1**
+   - Introdução: Motivação / Apresentação Geral
+   - Revisão do Métodos Sísmico
+   - Migração Sísmica
 
-**Módulo 2**
-- Conceitos básicos de convolução e deconvolução multidimensional
-
+- **Módulo 2**
+   - Conceitos básicos de convolução e deconvolução multidimensional
 
 #### Dia 2
 
-**Módulo 3**
-- **Aplicações Numérica: [PSF](psf)**
+- **Módulo 3**
+   - **Aplicações Numérica: [PSF](psf)**
 
-**Módulo 4**
-- Aplicações práticas
+- **Módulo 4**
+   - Aplicações práticas
 
 ---------------------------------
 
 Referências
 -----------
 
-* FICHTNER, A., *Full Seismic Waveform Modelling and Inversion*. Berlin, New York: Springer-Verlag, 2010.
+* JANSSON, A. P., *Deconvolution of Images and Spectra*. 2a. Ed. Academic Press: 1996.
 
 ---------------------------------
 
