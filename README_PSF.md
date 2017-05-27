@@ -4,6 +4,8 @@ Point Spread Function: Aplicações na Geofísica
 
 **André Bulcão, Bruno Pereira Dias e Djalma Manoel Soares Filho**
 
+![Point Spread Function](figures/psf.png)
+
 ---------------------------------
 
 Ementa do Curso
@@ -22,7 +24,7 @@ Ementa do Curso
 #### Dia 2
 
 - **Módulo 3**
-   - **Aplicações Numérica: [PSF](psf)**
+   - **Aplicações Numéricas: [PSF](psf)**
 
 - **Módulo 4**
    - Aplicações práticas

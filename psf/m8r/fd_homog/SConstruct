@@ -1,0 +1,294 @@
+from rsf.proj import *
+from math import pi as PI
+from math import sqrt
+
+# get enviroment datapath (or choose datapath)
+from os import environ as osenv
+dpath=osenv.get('DATAPATH')
+
+#-------------------------------------------------------------
+def arr2str(array,sep=' '):
+    return string.join(map(str,array),sep)
+
+## Make homogeneous model
+def make_homog_model(model,n1,n2,d1,d2,mag,dpath):
+    Flow(model,None, ''' spike n1=%d n2=%d d1=%g d2=%g mag=%g datapath=%s'''
+    %(n1,n2,d1,d2,mag,dpath))
+
+## Make spikes model
+def make_spike_model(model,par):
+    Flow(model,None, ''' spike n1=%(nz)d n2=%(nx)d d1=%(dz)g d2=%(dx)g
+                               k1=%(k1)s k2=%(k2)s mag=%(mag)s nsp=%(nsp)d datapath=%(dpath)s '''%(par) )
+
+## Make two layer model
+def make_two_layer_model(layers,par,value,model,dpath):
+    Flow(model,layers,
+    ''' spline o1=%g d1=%g n1=%d |
+     unif2 o1=%g d1=%g n1=%d v00=%s |
+     dd form=native |
+     put label1=%s label2=%s unit1=%s unit2=%s
+     datapath=%s '''%(par['ox'],par['dx'],par['nx'],
+                        par['oz'],par['dz'],par['nz'],value,
+                        par['lz'],par['lx'],par['uz'],par['ux'],
+                        dpath))
+
+# create ricker wavelet
+def create_ricker(wav, par,dl,deriv, **kwargs):
+    par['kt']=dl
+    par['da']=PI*par['fpeak']
+    par['da2']=par['da']*par['da']
+    if   (deriv == -2):
+        Flow(wav, None,
+             '''spike nsp=1 mag=0 k1=0
+                o1=%(ot)f d1=%(dt)f n1=%(nt)d |
+                sfmath output="-(0.5/(%(da2)f))*exp(-%(da2)f*(x1-%(kt)f)^2)" |
+                transp plane=12|
+                put label1="t" '''%(par))
+    elif (deriv == -1):
+        Flow(wav, None,
+             '''spike nsp=1 mag=0 k1=0
+                o1=%(ot)f d1=%(dt)f n1=%(nt)d|
+                sfmath output="(x1-%(kt)f)*exp(-%(da2)f*(x1-%(kt)f)^2)" |
+                transp plane=12|
+                put label1="t" '''%(par))
+    elif (deriv == 0 ):
+        Flow(wav, None,
+             '''spike nsp=1 mag=0 k1=0
+                o1=%(ot)f d1=%(dt)f n1=%(nt)d|
+                sfmath output="( 1 - 2*(%(da2)f*(x1-%(kt)f)^2) )*
+                               exp( -%(da2)f*(x1-%(kt)f)^2 )" |
+                transp plane=12|
+                put label1="t" '''%(par))
+    elif (deriv == 1 ):
+        Flow(wav, None,
+             '''spike nsp=1 mag=0 k1=0
+                o1=%(ot)f d1=%(dt)f n1=%(nt)d|
+                sfmath output="( -6 + 4*%(da2)f*(x1-%(kt)f)^2 )*
+                               (x1-%(kt)f)*%(da2)f *
+                               exp( -%(da2)f*(x1-%(kt)f)^2 )" |
+                transp plane=12|
+                put label1="t" '''%(par))
+    else:
+        print "Derivative order not available!"
+
+
+#plot signal and its spectrum (1d only)
+def plot_sig_spec(sig, fcut, transpose, **kwargs):
+    if transpose:
+        ssig='transp-'+sig
+        Flow(ssig,  sig, "transp plane=12")
+    else:
+        ssig=sig
+
+    Flow('spec-'+ssig, ssig,
+         "spectra|put label1='Frequency' title='Spectrum'  ")
+
+    Plot('plot-spec-'+ssig, 'spec-'+ssig,
+         "window max1=%f |graph"%(fcut))
+
+    Plot('plot-'+ssig, ssig, "put title='Signature' | graph")
+
+    Result('plot-sig+spec-'+ssig,
+           ['plot-'+ssig, 'plot-spec-'+ssig],
+           'SideBySideIso')
+
+#create a horizontal line of receivers
+def rec_hline(rec, oor, nr, dr, zr):
+    Flow('tmp-x-'+rec, None,
+         "math n1=%d d1=%f o1=%f output='x1'"%(nr, dr, oor))
+
+    Flow('tmp-z-'+rec, None,
+         "math n1=%d d1=%f o1=%f output='%f'"%(nr, dr, oor, zr))
+
+    Flow(rec, ['tmp-x-'+rec,'tmp-z-'+rec],
+         """cat axis=2 ${SOURCES[1]} space=n|transp|
+            put label1="" unit1="" label2="" unit2="" """)
+
+#create location files file for a point source
+def point_src(src, xsrc, zsrc):
+    Flow(src, None,
+         "spike nsp=2 mag=%f,%f n1=2 k1=1,2"%(xsrc,zsrc))
+
+#  acoustic modeling
+def modeling(sismo, snap, wav, sou, rec, vel, den, par, **kwargs):
+
+    Flow([sismo, snap], [wav, vel, den,rec, sou],
+         """awefd2d
+            dabc=y verb=y snap=y fsrf=n cden=y
+            nb=%(nb)d jsnap=%(jsnap)d jdata=%(jdata)d
+            vel=${SOURCES[1]} den=${SOURCES[2]}
+            rec=${SOURCES[3]} sou=${SOURCES[4]}
+            wfl=${TARGETS[1]}"""%(par))
+
+# Born (linearized) modeling
+def born_modeling(sis_bkg, sis_sct, snap_bkg, snap_sct, wav, sou, rec, vel, den, ref, par, **kwargs):
+
+    Flow([sis_bkg, sis_sct, snap_bkg, snap_sct], [wav, vel, den, ref, rec, sou],
+         """lwefd2d
+            dabc=y verb=y snap=y fsrf=n cden=y
+            nb=%(nb)d jsnap=%(jsnap)d jdata=%(jdata)d
+            vel=${SOURCES[1]} den=${SOURCES[2]} ref=${SOURCES[3]}
+            rec=${SOURCES[4]} sou=${SOURCES[5]}
+            lid=${TARGETS[1]} wfl=${TARGETS[2]} liw=${TARGETS[3]}"""%(par))
+
+#plot snapshot
+def snap_plot(snap, **kwargs):
+
+    Result('plot-'+snap, snap,
+           ''' put label1='Depth' label2='Distance'
+               unit1='m' unit2='m' title="%s" |
+               grey scalebar=y gainpanel=a'''%(snap))
+
+#plot seismogram (shot)
+def sismo_plot(sismo, perc):
+
+    Result('plot-'+sismo, sismo,
+           '''transp plane=23 | transp plane=12 |put title="%s"|
+              grey pclip=%f gainpanel=e scalebar=y '''%(sismo,perc))
+
+#plot model
+def model_plot(model,title,bias=1500.):
+    Result('plot-'+model,model,
+           ''' grey pclip=100 gainpanel=e scalebar=y color=j
+               allpos=y title=%s bias=%g '''%(title,bias))
+
+## model parameters ##
+
+# modeling parameters
+par=dict(
+    ot=0.0,
+    nt=1000,
+    dt=0.004,  # 1e-3
+    nx=101,
+    nz=101,
+    nsp=1,     # number of spikes
+    #k1="121,121,161,161",
+    #k2="121,161,161,121",
+    #mag="1.,1.,1.,1.",
+    k1="50",
+    k2="50",
+    mag="1.",
+    vel=1500.,
+    jsnap=1,
+    jdata=1,
+    nb=25,
+    fpeak=4.,
+    oz=0.0,
+    ox=0.0,
+    dx=25.,
+    dz=25.,
+    lz='Depth',
+    lx='Distance',
+    uz='m',
+    ux='m',
+    srad=10,      # smooth radius
+    nrec=100,      # number of receivers
+    dr=25.,       # receiver interval (m)
+    zr=25.,       # receiver depth (m)
+    zsrc=25.,     # source depth (m)
+    dshot=250.,    # shot interval (m)
+    nbuf=8,       # xcor buffer
+    )
+dl=1.0*sqrt(6)/PI/par['fpeak']
+par['dpath']=dpath
+
+
+# Create Layers
+suffix='_NZ'+str(par['nz'])+'_NX'+str(par['nx'])
+
+## make models
+model='psf'
+vp='vp_'+model+suffix
+rho='rho_'+model+suffix
+ref='ref_'+model+suffix
+
+make_homog_model(vp,par['nz'],par['nx'],par['dz'],par['dx'],par['vel'],dpath)
+make_homog_model(rho,par['nz'],par['nx'],par['dz'],par['dx'],1.,dpath)
+make_spike_model(ref,par)
+
+# model plot
+model_plot(vp,"Vp",2500.)
+
+## finite difference modeling
+start  = int(ARGUMENTS.get('start_shot', '1')) # start shot
+end    = int(ARGUMENTS.get('end_shot', '11')) # end shot
+offset = float(ARGUMENTS.get('off', '0.')) #afastamento do inicio do modelo
+nexp=end-start+1
+
+#strings to concatenate data
+all_wavfile=''
+all_sfile=''
+all_rfile=''
+all_fshot=''
+
+#shot position loop [start, end]
+for j in range(start, end+1):
+
+    #receiver line
+    rfile='receivers_'+str(j)
+    all_rfile=all_rfile+rfile+' '
+
+
+    xsrc = offset + (j-1)*par['dshot']
+    print xsrc
+    #oor=xsrc + 25. #posicao do primeiro receptor - cabo empurrando
+    #    oor=xsrc - 1625. #posicao do primeiro receptor - cabo sendo puxado
+    oor = 0.  # spread-fixo
+
+    rec_hline(rfile, oor, par['nrec'],
+              par['dr'], par['zr'])
+
+    #create wavelets
+    wavfile='wavelet_'+str(j)
+    all_wavfile=all_wavfile+wavfile+' '
+
+    create_ricker(wavfile, par,dl,0)
+    #create_src(wavfile, par,dl, False)
+
+    #plot_sig_spec(wavfile, 60, True)
+
+    # create sources positions
+    sfile='source_'+str(j)
+    all_sfile=all_sfile+sfile+' '
+
+    point_src(sfile, xsrc, par['zsrc'])
+
+    # creating registered data: shot-gather
+    fshot='shot-'+model+'-'+str(j)
+    wfshot='snap'+fshot
+    all_fshot=all_fshot+fshot+' '
+
+    # source wavefield (z,x,t)
+    snap_bkg='snap-bkg-'+model+'-'+str(j)
+    snap_sct='snap-sct-'+model+'-'+str(j)
+    lshot='l'+fshot
+    born_modeling(fshot, lshot, snap_bkg, snap_sct, wavfile, sfile, rfile, vp, rho, ref, par)
+
+    # reverse data
+    rshot = 'r'+fshot
+    Flow(rshot,lshot,'''costaper nw1=5 nw2=10 |
+                        reverse which=2 opt=i verb=y''')
+
+    # reverse in time source wavefield
+    rsnap_bkg='r'+snap_bkg
+    Flow(rsnap_bkg,snap_bkg,'''reverse which=4 opt=i verb=y memsize=2000''')
+
+    # adjoint (receiver) wavefield (z,x,t)
+    afshot='a'+wfshot
+    rout='rout-'+model+'-'+str(j)
+    modeling(rout,afshot, rshot, rfile, rfile, vp, rho, par)
+
+    # conventional (cross-correlation zero-lag) imaging condition
+    imag='imag'+model+'-'+str(j)
+    Flow(imag,[rsnap_bkg,afshot],
+         'xcor2d uu=${SOURCES[1]} axis=3 verb=y nbuf=%(nbuf)d' % par)
+
+    # plotting registered data
+    snap_plot(snap_bkg)
+    sismo_plot(lshot,99)
+
+
+End()
+
+
+# sfadd imagpsf-*.rsf | sfimage legend=1 &

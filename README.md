@@ -11,6 +11,8 @@
 
 **André Bulcão, Bruno Pereira Dias e Djalma Manoel Soares Filho**
 
+![Point Spread Function](figures/psf.png)
+
 ---------------------------------
 
 [Full Waveform Inversion: Introdução e Aplicações](README_FWI.md)
