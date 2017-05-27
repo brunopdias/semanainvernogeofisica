@@ -1,4 +1,4 @@
-![Full Waveform Inversion: Introdução e Aplicações](README_FWI.md)
+Full Waveform Inversion: Introdução e Aplicações
 ================================================
 **VII Semana de Inverno de Geofísica: 6 a 8 de Julho/2016 — INCT-GP, UNICAMP, Campinas, SP**
 
