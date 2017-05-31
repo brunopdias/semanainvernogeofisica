@@ -13,21 +13,44 @@ Ementa do Curso
 
 #### Dia 1
 
-- **Módulo 1**
-   - Introdução: Motivação / Apresentação Geral
-   - Revisão do Métodos Sísmico
-   - Migração Sísmica
+- **Módulo 1:** Introdução & Motivação
+  - Definição e Aplicações
+  - Casos da Literatura
+  - Revisão do Método Sísmico
+  - Migração Sísmica
 
-- **Módulo 2**
-   - Conceitos básicos de convolução e deconvolução multidimensional
+
+- **Módulo 2:** Conceitos Básicos
+  - Modelagem Sismica
+    - Diferenças Finitas, Traçado de Raio
+    - Elasticidade, Anisotropia, Absorção
+  - Migração Sísmica: RTM , Kirchhoff , outros
+  - Teoria de Inversao Linear
+    - Teste do Adjunto
+    - Vínculos na Inversão (Ex. Esparsidade)
+  - Conceitos básicos de convolução e deconvolução multidimensional
+
 
 #### Dia 2
 
-- **Módulo 3**
-   - **Aplicações Numéricas: [PSF](psf)**
+- **Módulo 3:** Aplicações Numéricas
+   - [Cálculo da PSF](psf)**
+   - Traçado de Raio
+   - Modelagem de Born + Migração (RTM)
+   - Modelagem por Ponto Focal
 
-- **Módulo 4**
-   - Aplicações práticas
+
+- **Módulo 4:** Exemplos de Aplicações
+   - Iluminação e suporte à interpretação pela análise das PSFs
+	 - Modelagem da resposta sísmica
+	 - Estudo de Viabilidade 4D
+	 - Least Squares Migration Image Domain (LSM-ID)
+	   - Acústico
+		 - Pré-empilhamento
+		 - Inversão 4D
+		 - Correção da Atenuação
+		 - Elástico
+
 
 ---------------------------------
 
@@ -35,6 +58,14 @@ Referências
 -----------
 
 * JANSSON, A. P., *Deconvolution of Images and Spectra*. 2a. Ed. Academic Press: 1996.
+
+* FLETCHER
+* CAVALCA
+* SCHUSTER
+
+* ALAN
+* KAZUO
+
 
 ---------------------------------
 
