@@ -33,23 +33,22 @@ Ementa do Curso
 
 #### Dia 2
 
-- **Módulo 3:** Aplicações Numéricas
-   - [Cálculo da PSF](psf)**
-   - Traçado de Raio
-   - Modelagem de Born + Migração (RTM)
-   - Modelagem por Ponto Focal
+- **Módulo 3:** [Cálculo da PSF](psf)
+  - Traçado de Raio
+  - Modelagem de Born + Migração (RTM)
+  - Modelagem por Ponto Focal
 
 
 - **Módulo 4:** Exemplos de Aplicações
-   - Iluminação e suporte à interpretação pela análise das PSFs
-	 - Modelagem da resposta sísmica
-	 - Estudo de Viabilidade 4D
-	 - Least Squares Migration Image Domain (LSM-ID)
-	   - Acústico
-		 - Pré-empilhamento
-		 - Inversão 4D
-		 - Correção da Atenuação
-		 - Elástico
+  - Iluminação e suporte à interpretação pela análise das PSFs
+  - Modelagem da resposta sísmica
+  - Estudo de Viabilidade 4D
+  - Least Squares Migration Image Domain (LSM-ID)
+    - Acústico
+    - Pré-empilhamento
+    - Inversão 4D
+    - Correção da Atenuação
+    - Elástico
 
 
 ---------------------------------
