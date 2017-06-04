@@ -1,7 +1,7 @@
 %
 % Example adjoint test
 %
-% Comparison with matrix transpose
+% Comparison with correlation
 %
 
 % Load octave packages
@@ -30,13 +30,13 @@ psf_adj = fliplr(flipud(psf));
 
 G = psf_to_matrix(N,psf);
 
-img2 = reshape(G*img1(:),N,N);
+img2 = conv2(img1,psf,SHAPE="same");
 
-img3 = conv2(img1,psf,SHAPE="same");
+img3 = conv2_vanilla(img1, psf, ADJ = false);
 
-img4 = reshape(G'*img1(:),N,N);
+img4 = conv2(img1,psf_adj,SHAPE="same");
 
-img5 = conv2(img1,psf_adj,SHAPE="same");
+img5 = conv2_vanilla(img1, psf, ADJ = true);
 
 figure(1)
 imagesc(img)
@@ -51,17 +51,17 @@ title("PSF")
 figure(3)
 imagesc(img2)
 colormap(gray);
-title("Blurred Image (Matrix)")
+title("Blurred Image (Conv2)")
 
 figure(4)
 imagesc(img3)
 colormap(gray);
-title("Blurred Image (Convolution)")
+title("Blurred Image (Conv2 Vanilla)")
 
 figure(5)
 imagesc(img3-img2)
 colormap(gray);
-title("Difference: Convolution - Matrix")
+title("Difference: Convolution - Vanilla")
 colorbar()
 
 figure(6)
@@ -72,16 +72,16 @@ title("PSF Adjoint")
 figure(7)
 imagesc(img4)
 colormap(gray);
-title("Blurred Image (Matrix Adjoint)")
+title("Blurred Image (Convolution Adjoint)")
 
 figure(8)
 imagesc(img5)
 colormap(gray);
-title("Blurred Image (Convolution Adjoint)")
+title("Blurred Image (Vanilla Adjoint)")
 
 figure(9)
 imagesc(img5-img4)
 colormap(gray);
-title("Difference Adjoint: Convolution - Matrix")
+title("Difference Adjoint: Convolution - Vanilla")
 colorbar()
 
