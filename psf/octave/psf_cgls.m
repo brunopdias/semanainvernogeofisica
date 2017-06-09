@@ -60,6 +60,6 @@ for k=0:niter-1
 
   % Store the new iterate.
   X(:,:,k+1)=m;
-  rho(k+1)=norm(s(:));
-  eta(k+1)=norm(m(:));
+  rho(k+1)=sqrt(norm(s(:)));
+  eta(k+1)=sqrt(norm(m(:)));
 end
