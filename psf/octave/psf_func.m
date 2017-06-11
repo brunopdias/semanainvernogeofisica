@@ -27,7 +27,7 @@ function y = psf_func(x, adj="notransp")
   
   xx = reshape(x,n1,n2);
 
-  if ( strcmp(adj,"transp") )
+  if ( strcmp(adj,"transp") || (adj == 2) )
     psf_adj = fliplr(flipud(psf));
     blur = conv2(xx,psf_adj,SHAPE="same");
   else

@@ -27,8 +27,8 @@ niter = 10;
 [X,rho,eta]=psf_cgls(psf,blur,niter);
 %[X,rho,eta]=psf_cg(psf,blur,niter);
 
-%disp("Final residue norm="); disp(rho(niter))
-printf("Final residue norm=%d\n",rho(end)/rho(1))
+printf("Final residue norm=%d\n",rho(end))
+printf("Final normalized residue norm=%d\n",rho(end)/rho(1))
 
 figure(1)
 imagesc(img)
