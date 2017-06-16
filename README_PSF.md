@@ -17,27 +17,28 @@ Ementa do Curso
   - Definição e Aplicações
   - Casos da Literatura
   - Revisão do Método Sísmico
-  - Migração Sísmica
-
-
-- **Módulo 2:** Conceitos Básicos
   - Modelagem Sismica
     - Diferenças Finitas, Traçado de Raio
     - Elasticidade, Anisotropia, Absorção
   - Migração Sísmica: RTM , Kirchhoff , outros
-  - Teoria de Inversao Linear
-    - Teste do Adjunto
-    - Vínculos na Inversão (Ex. Esparsidade)
-  - Conceitos básicos de convolução e deconvolução multidimensional
 
+- **Módulo 2:** Conceitos Básicos
+  - Convolução unidimensional e multidimensional
+  - Operadores Lineares e Operador Adjunto
+  - Métodos Iterativos de Inversão Linear
+    - Método do Conjugado Gradiente
+    - Método do Conjugado Gradiente Quadrados Mínimos
+    - Outros Métodos (LSQR, LSMR...)
+  - Técnicas de Regularização
+    - Regularização de Tikhonov
+    - Vínculos de Esparsidade
 
 #### Dia 2
 
 - **Módulo 3:** [Cálculo da PSF](psf)
-  - Traçado de Raio
+  - Traçado de Raio + Filtro KK
   - Modelagem de Born + Migração (RTM)
   - Modelagem por Ponto Focal
-
 
 - **Módulo 4:** Exemplos de Aplicações
   - Iluminação e suporte à interpretação pela análise das PSFs
