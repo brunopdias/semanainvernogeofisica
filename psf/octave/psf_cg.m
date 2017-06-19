@@ -3,10 +3,9 @@
 %
 % [X,rho,eta]=psf_cg(psf,img,niter)
 %
-% Performs niter iterations of the CGLS algorithm on the least
-% squares problem
+% Performs niter iterations of the Conjugate Gradient algorithm
 % 
-%   min (1/2)*x'A*x - x'*b)
+%   min (1/2)*(x'A*x - x'*b)
 %
 % The iterates 1, 2, ..., niter are returned in the columns of the
 % matrix X.  For each iterate we also compute rho(i)=norm(G*m-d)
@@ -18,8 +17,8 @@ function [X,rho,eta]=psf_cg(psf,img,niter)
 
 % Setup space for the results.
 X=zeros(n1,n2,niter);
-rho=zeros(niter);
-eta=zeros(niter);
+rho=zeros(niter,1);
+eta=zeros(niter,1);
 
 % Setup for the first iteration.
 x=zeros(n1,n2);
@@ -51,6 +50,6 @@ for k=0:niter-1
   
   % Store the new iterate.
   X(:,:,k+1)=x;
-  rho(k+1)=sqrt(norm(rsnew));
+  rho(k+1)=sqrt(norm(rsnew(:)));
   eta(k+1)=sqrt(norm(x(:)));
 end
