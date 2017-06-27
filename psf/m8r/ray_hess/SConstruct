@@ -1,0 +1,32 @@
+from rsf.proj import *
+
+# input model
+NZ=300
+NX=361
+model="vp_hess_NZ"+str(NZ)+"_NX"+str(NX)+".rsf"
+
+# Shot position
+Flow('shots.asc', None, """ echo 7000 750 7000 3000 7000 5250 7000 7500
+                            in=shots.asc n1=2 n2=5 o2=1 d2=1 data_format=ascii_float""")
+
+Flow('shots', 'shots.asc', "dd form=native")
+
+# plot the model
+Plot('model',model,'''grey color=j scalebar=y label1=Depth unit1=km
+                        label2=Position unit2=km barlabel=Velocity barunit=km/s
+                        barreverse=y title=Model allpos=y''')
+
+# do a ray-tracing
+Flow('ray',[model,'shots'],"""rays2 shotfile=${SOURCES[1]} nt=3000 dt=0.001
+                            a0=-90. amax=90. nr=60""")
+
+# plot the ray
+for ns in range(4):
+    Flow('ray'+str(ns),'ray',"window n3=1 f3=%d"%(ns))
+    Plot('ray'+str(ns),'''graph transp=y yreverse=y min1=0 max1=7475 min2=0 max2=9000
+                          wantaxis=n wanttitle=n scalebar=y plotcol=7 plotfat=5''')
+
+    # overlay model and ray
+    Result('overlay'+str(ns),'model ray'+str(ns),'Overlay')
+
+End()

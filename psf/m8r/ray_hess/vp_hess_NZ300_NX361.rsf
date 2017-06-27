@@ -1,0 +1,5 @@
+data_format=native_float
+in="./vp_hess_NZ300_NX361.rsf@"
+n1=300  d1=25.0      o1=0. label1="depth" unit1="m"
+n2=361  d2=25.0      o2=0. label2="offset" unit2="m"
+esize=4
