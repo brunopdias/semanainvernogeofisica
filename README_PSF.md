@@ -22,8 +22,18 @@ Ementa do Curso
     - Elasticidade, Anisotropia, Absorção
   - Migração Sísmica: RTM , Kirchhoff , outros
 
-- **Módulo 2:** Conceitos Básicos
+
+- **Módulo 2:** [Cálculo da PSF](psf/m8r)
+   - Traçado de Raio + Filtro KK
+   - Modelagem de Born + Migração (RTM)
+   - Modelagem por Ponto Focal
+
+#### Dia 2
+
+- **Módulo 3:** [Inversão com PSF](psf/octave)
+  - Modelo Linear de Desfocalização
   - Convolução unidimensional e multidimensional
+  - Deconvolução multidimensional
   - Operadores Lineares e Operador Adjunto
   - Métodos Iterativos de Inversão Linear
     - Método do Conjugado Gradiente
@@ -33,12 +43,6 @@ Ementa do Curso
     - Regularização de Tikhonov
     - Vínculos de Esparsidade
 
-#### Dia 2
-
-- **Módulo 3:** [Cálculo da PSF](psf)
-  - Traçado de Raio + Filtro KK
-  - Modelagem de Born + Migração (RTM)
-  - Modelagem por Ponto Focal
 
 - **Módulo 4:** Exemplos de Aplicações
   - Iluminação e suporte à interpretação pela análise das PSFs
@@ -57,15 +61,31 @@ Ementa do Curso
 Referências
 -----------
 
+**Livros**
+
+* ASTER, R.C., BORCHERS, B., THURBER, C. H., *Parameter Estimation and Inverse Problems*. 2a. Ed. Elsevier: 2013.
+
+* HANSEN, P. C., NAGY, J. G., O'LEARY, D. P., *Deblurring Images: Matrices, Spectra, and Filtering*. 1a. Ed. SIAM: 2006.
+
 * JANSSON, A. P., *Deconvolution of Images and Spectra*. 2a. Ed. Academic Press: 1996.
 
-* FLETCHER
-* CAVALCA
-* SCHUSTER
+**Artigos**
 
-* ALAN
-* KAZUO
+* HU, J., SCHUSTER, G. T., VALASEK, P. A., *Poststack migration deconvolution*. Geophysics, v.66, no.3, 2001.
 
+* LECOMTE, I., *Resolution and illumination analyses in PSDM: A ray-based approach*. The Leading Edge, May 2008.
+
+* LETKI, L., TANG, J., INYANG, C., DU, X., FLETCHER, R., *Depth domaing inversion to improve the fidelity of subsalt imaging: a Gulf of Mexico case study*. First Break, v.33, September, 2015.
+
+* FLETCHER, R., NICHOLS, D., BLOOR, R., COATES, R.T., *Least-squares migration - Data domain versus image domain using point spread functions* The Leading Edge, February 2016.
+
+**Teses**
+
+* TAKAHATA, A. K., *Unidimensional and Bidimension Seismic Deconvolution*. Tese de Doutorado. UNICAMP, 2014.
+
+* FARIAS, F. F., *Migração Reversa no Tempo com Amplitude Ponderada pela Iluminação*. Dissertação de Mestrado. COPPE/UFRJ, 2015.
+
+* SOUZA, A.A.V.B., *Migração Sísmica por Quadrados Mínimos utilizando Funções Robustas*. Dissertação de Mestrado. UNICAMP, 2017.
 
 ---------------------------------
 
