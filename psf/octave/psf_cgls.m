@@ -11,7 +11,7 @@
 % The iterates 1, 2, ..., niter are returned in the columns of the
 % matrix X.  For each iterate we also compute rho(i)=norm(G*m-d)
 % and eta(i)=norm(m).
-function [X,rho,eta]=psf_cgls(psf,img,niter)
+function [X,rho,eta]=psf_cgls(psf,img,niter,shift=0.)
 %
 psf_adj = fliplr(flipud(psf));
 
@@ -56,7 +56,7 @@ for k=0:niter-1
 
   % Save r for the next iteration, and then update it.
   prevr=r;
-  r=conv2(s,psf_adj,SHAPE="same");
+  r=conv2(s,psf_adj,SHAPE="same") + shift*m;
 
   % Store the new iterate.
   X(:,:,k+1)=m;
