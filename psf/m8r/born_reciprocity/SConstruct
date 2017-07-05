@@ -162,11 +162,11 @@ par=dict(
     nx=81,
     nz=81,
     nsp=1,     # number of spikes
-    k1="60",
-    k2="40",
+    k1="61",
+    k2="41",
     mag="1.",
     vel=1500.,
-    jsnap=100,
+    jsnap=20,
     jdata=1,
     nb=40,
     fpeak=4.,
@@ -270,10 +270,28 @@ for j in range(start, end+1):
 
     # Convolution of source trace with receiver traces
     trace='shot-recip-trace-'+str(j)
+    Flow(trace, shot,'window n1=1 f1=40')
+
+    # shot_conv='shot-recip-conv-'+model+'-'+str(j)
+    # Flow(shot_conv, [shot,trace],"""transp | conv filt=${SOURCES[1]} trans=y |
+    #                                 window n1=2000 | transp """)
+    # sismo_plot(shot_conv)
+
+    # Correction of Wavelet and Derivative
+    trace_spray='shot-recip-trace-spray-'+str(j)
+    wav_spray='wavelet-spray-'+str(j)
+
+    Flow(trace_spray,trace,'''spray n=%(nrec)d d=%(dr)d o=o |
+                              fft1'''%(par))
+
+    Flow(wav_spray,wavfile,''' transp | spray n=%(nrec)d d=%(dr)d o=o |
+                              fft1'''%(par))
+
     shot_conv='shot-recip-conv-'+model+'-'+str(j)
-    Flow(trace, shot,'window n1=1 f1=40 window n1=1 f1=40')
-    Flow(shot_conv, [shot,trace],"""transp | conv filt=${SOURCES[1]} trans=y |
-                                    window n1=2000 | transp """)
+    Flow(shot_conv, [shot,trace_spray,wav_spray],
+         """transp | fft1 | math s=${SOURCES[1]} w=${SOURCES[2]}
+            output="x1^2*input*s*conj(w)/(w*conj(w)+0.001)" |
+            fft1 inv=y |  transp """)
     sismo_plot(shot_conv)
 
 End()
