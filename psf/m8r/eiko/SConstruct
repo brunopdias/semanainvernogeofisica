@@ -1,0 +1,126 @@
+from rsf.proj import *
+
+par = dict(
+    nx=200,  ox=-10, dx=0.1,  lx='x', ux='km',
+    nz=200,  oz=-10, dz=0.1,  lz='z', uz='km', 
+    nt=1000, ot=0,   dt=0.01, # traveltime
+    ng=1801, og=-90, dg=0.1,  # angle
+    sig=1.5,                  # stdev
+    xsou=6.0, zsou=-10,         # coords
+    labelattr="titlefat=3 labelsz=5 labelfat=3"
+    )
+par['xmin']=par['ox']
+par['xmax']=par['ox'] + (par['nx']-1)*par['dx']
+par['zmin']=par['oz']
+par['zmax']=par['oz'] + (par['nz']-1)*par['dz']
+par['ratio']=(par['nz']-1)*par['dz']/(par['nx']-1)/par['dx']
+
+# ------------------------------------------------------------
+
+# plot rays and wavefronts
+def hwtplot(custom,par):
+    return '''
+    graph 
+    title="" screenratio=%(ratio)g
+    plotcol=0 plotfat=3 wantaxis=n yreverse=y
+    min1=%(zmin)g max1=%(zmax)g
+    min2=%(xmin)g max2=%(xmax)g
+    %(labelattr)s
+    '''%par + custom
+
+# plot traveltime contour lines
+def fmeplot(custom,par):
+    return '''
+    contour 
+    title="" screenratio=%(ratio)g
+    nc=100  plotfat=10
+    labelrot=n wantaxis=n wanttitle=n
+    %(labelattr)s
+    '''%par + custom
+    
+# ------------------------------------------------------------
+
+# make Gaussian function
+Flow('gg',None,
+     '''
+     math output="exp(-(x1^2+x2^2)/(2*%(sig)g^2))"
+     n1=%(nz)d d1=%(dz)g o1=%(oz)g
+     n2=%(nx)d d2=%(dx)g o2=%(ox)g |
+     put label1=%(lz)s unit1=%(uz)s 
+         label2=%(lx)s unit2=%(ux)s
+     '''%par)
+
+
+# ------------------------------------------------------------
+
+# make velocity
+Flow('vel','gg',
+     'math output="3.0"')
+
+# plot velocity
+Plot('vel',
+     '''
+     grey title="" pclip=100 color=g
+     screenratio=%(ratio)g mean=y %(labelattr)s
+     '''%par)
+# ------------------------------------------------------------
+
+# make eikonal traveltimes for source
+par['xsou']=-6.
+
+Flow(  'fmes','vel',
+       'eikonal zshot=%(zsou)g yshot=%(xsou)g'%par)
+
+Flow(  'fmes2','fmes',
+       'math output="input"')
+
+# plot eikonal traveltimes
+Plot('fmes2',
+     '''
+     grey title="" pclip=100 color=j  allpos=y
+     screenratio=%(ratio)g  %(labelattr)s
+     '''%par)
+Plot(  'fmes',fmeplot('',par))
+Result('fmes',['fmes2','fmes'],'Overlay')
+
+
+
+# make eikonal traveltimes for receiver
+par['xsou']=+6.
+
+Flow(  'fmer','vel',
+       'eikonal zshot=%(zsou)g yshot=%(xsou)g'%par)
+
+Flow(  'fmer2','fmer',
+       'math output="input"')
+
+# plot eikonal traveltimes
+Plot('fmer2',
+     '''
+     grey title="" pclip=100 color=j  allpos=y
+     screenratio=%(ratio)g  %(labelattr)s
+     '''%par)
+Plot(  'fmer',fmeplot('',par))
+Result('fmer',['fmer2','fmer'],'Overlay')
+
+
+# make eikonal traveltimes for source+receiver
+Flow(  'fmesr',['fmes','fmer'],
+       'add ${SOURCES[1]} ')
+
+Flow(  'fmesr2','fmesr',
+       'math output="input"')
+
+# plot eikonal traveltimes
+Plot('fmesr2',
+     '''
+     grey title="" pclip=100 color=j  allpos=y
+     screenratio=%(ratio)g  %(labelattr)s
+     '''%par)
+Plot(  'fmesr',fmeplot('',par))
+Result('fmesr',['fmesr2','fmesr'],'Overlay')
+
+
+# ------------------------------------------------------------
+
+End()
