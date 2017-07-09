@@ -1,0 +1,12 @@
+
+fzt=0 nzt=101 dzt=25.
+fxt=0 nxt=101 dxt=25.
+fs=0 ns=26 ds=100.
+fxo=0 nxo=101 dxo=25
+fzo=0 nzo=251 dzo=10
+aperx=2500 dxm=12.5 ntr=1000 ls=1
+off0=0 noff=1 doff=200
+v0=1500 dvz=0.0
+offmax=4000 angmax=60 fmax=55
+jpfile=jpfile.kd
+ttfile=tfile

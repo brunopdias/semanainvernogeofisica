@@ -1,0 +1,12 @@
+#! /bin/sh
+# shell for uniformly sampling velocity from a layered model
+set -v
+
+nz=101 dz=25. fz=0.  labelz="Depth (m)"
+nx=101 dx=25. fx=0.  labelx="Distance (m)"
+ninf=0 npmax=101
+unif2 <input >vfile  ninf=$ninf  npmax=$npmax \
+	nz=$nz dz=$dz fz=$fz nx=$nx dx=$dx fx=$fx \
+	v00=1500.  dvdz=0.
+
+exit 0
