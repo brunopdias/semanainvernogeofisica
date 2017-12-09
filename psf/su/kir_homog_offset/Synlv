@@ -1,0 +1,17 @@
+#! /bin/sh
+# shell for Kirchhoff modeling for linear v(x,z)
+set -x
+
+ nt=750 dt=0.004 ft=0.0 tmin=0.5
+ kilounits=1
+ nxs=51 dxs=0.05  fxs=0.0
+ nxo=201 dxo=0.01   fxo=0.0
+ fpeak=5
+ er=0 ls=1 ob=1
+ susynlv  nt=$nt dt=$dt ft=$ft nxs=$nxs dxs=$dxs fxs=$fxs  fxo=$fxo\
+  dxo=$dxo nxo=$nxo tmin=$tmin v00=1.5 dvdx=0.0 dvdz=0. \
+  fpeak=$fpeak er=$er ls=$ls ob=$ob kilounits=$kilounits verbose=1 \
+  ref="1:-2.00,1.00;20.0000,1.00"> data # line reflectivity
+
+#  ref="1:-2.00,1.00;20.0000,1.00"> data # line reflectivity
+#  ref="1:1.25,1.00;1.2525,1.00"> data # point reflectivity

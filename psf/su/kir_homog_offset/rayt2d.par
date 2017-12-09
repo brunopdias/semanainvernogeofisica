@@ -1,0 +1,12 @@
+
+dt=0.004   nt=1001
+fz=0. nz=101 dz=25.
+fx=0. nx=101 dx=25.
+fxo=0 nxo=101 dxo=25.
+fzo=0 nzo=101 dzo=25.
+fxs=0 nxs=51 dxs=50.
+aperx=2500.
+fa=-90 na=91 da=2 amax=90
+fac=.01 ms=1 ek=1 npv=0
+jpfile=jpfile.ray
+tfile=tfile

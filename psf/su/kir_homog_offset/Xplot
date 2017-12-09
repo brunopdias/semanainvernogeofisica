@@ -1,0 +1,42 @@
+#! /bin/sh
+# shell for plotting synthetic data and migrated data
+
+WIDTH=400
+HEIGHT=600
+WIDTHOFF1=10
+WIDTHOFF2=480
+WIDTHOFF3=900
+HEIGHTOFF1=20
+
+nz=101 dz=25 fz=.0  labelz="Depth (m)"
+nx=101 dx=25 fx=0000.0  labelx="Distance (m)"
+
+# ximage <vfile  style=seismic legend=1 units=vel cmap=hsv5 \
+# 	n1=$nz d1=$dz f1=$fz grid1=dot label1="$labelz" \
+# 	n2=$nx d2=$dx f2=$fx grid2=dot label2="$labelx" \
+# 	title="Velocity" \
+# 	wbox=$WIDTH hbox=$HEIGHT xbox=$WIDTHOFF1 ybox=$HEIGHTOFF1 &
+
+suwind < data key=fldr min=26 max=26 | \
+suximage perc=99.9 legend=1 units=amp key=offset \
+	label1="Time (s)" label2="Offset (km)" \
+	title="Synthetic Data: shot 26" \
+	wbox=$WIDTH hbox=$HEIGHT xbox=$WIDTHOFF1 ybox=$HEIGHTOFF1 &
+
+# Plotting migrated data
+
+sustack < kd.data | suwind key=cdp min=1000 max=1500 | \
+suximage perc=99.9 legend=1 units=amp cmap=rgb0 key=cdp \
+	label1="Depth (km)" label2="Midpoint (m)" \
+	title="Kirchhoff Depth Migration (Stack)" \
+	wbox=$WIDTH hbox=$HEIGHT xbox=$WIDTHOFF2 ybox=$HEIGHTOFF1 &
+
+suwind key=cdp min=1250 max=1250 < kd.data | \
+   suxwigb legend=1  key=offset 	\
+   label1="Depth (km)" label2="Offset (m)" \
+   title="Kirchhoff Depth Migration (Gather@CDP1250)"  \
+   wbox=$WIDTH hbox=$HEIGHT xbox=$WIDTHOFF3 ybox=$HEIGHTOFF1 &
+
+# Prints maximum amplitudes
+suwind key=cdp min=1250 max=1250 < kd.data |\
+  sushw key=dt a=1000 | sumax verbose=1 mode=max
