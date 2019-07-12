@@ -5,8 +5,8 @@
 
 ---------------------------------
 
-Least-Squares Migration
-=======================
+[Least-Squares Migration](README_LSM.md)
+=========================
 **X Semana de Inverno de Geofísica: 22 a 24 de Julho/2019 — INCT-GP, UNICAMP, Campinas, SP**
 
 **André Bulcão, Bruno Pereira Dias e Djalma Manoel Soares Filho**
