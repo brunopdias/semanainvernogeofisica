@@ -5,6 +5,18 @@
 
 ---------------------------------
 
+Least-Squares Migration
+=======================
+**X Semana de Inverno de Geofísica: 22 a 24 de Julho/2019 — INCT-GP, UNICAMP, Campinas, SP**
+
+**André Bulcão, Bruno Pereira Dias e Djalma Manoel Soares Filho**
+
+|   |   | 
+|---|---|
+| ![Migration](figures/mig.png) | ![Least-Squares Migration](figures/lsm.png) |
+
+---------------------------------
+
 [Point Spread Function: Aplicações na Geofísica](README_PSF.md)
 ================================================
 **VIII Semana de Inverno de Geofísica: 19 a 21 de Julho/2017 — INCT-GP, UNICAMP, Campinas, SP**
