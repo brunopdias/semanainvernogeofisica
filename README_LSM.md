@@ -17,14 +17,14 @@ Ementa do Curso
 
 - **Módulo 1:** Introdução & Motivação
   
-- **Módulo 2:** 
+- **Módulo 2:** LSM no Domínio dos Dados
    - [Kirchhoff LSM](lsm/kirch)
 
 #### Dia 2
 
-- **Módulo 3:** 
+- **Módulo 3:** LSM no Domínio da Imagem
   
-- **Módulo 4:** 
+- **Módulo 4:** Aplicações
   
 
 ---------------------------------
