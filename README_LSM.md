@@ -1,5 +1,5 @@
-Point Spread Function: Aplicações na Geofísica
-================================================
+Least-Squares Migration
+=======================
 **X Semana de Inverno de Geofísica: 22 a 24 de Julho/2019 — INCT-GP, UNICAMP, Campinas, SP**
 
 **André Bulcão, Bruno Pereira Dias e Djalma Manoel Soares Filho**
@@ -17,9 +17,8 @@ Ementa do Curso
 
 - **Módulo 1:** Introdução & Motivação
   
-
 - **Módulo 2:** 
-  
+   - [Kirchhoff LSM](lsm/kirch)
 
 #### Dia 2
 
