@@ -35,5 +35,4 @@ Result('dat','grey title="Data" pclip=99.99')
 Result('mig','grey title="MIG" pclip=99.99')
 Result('lsm','grey title="LSM" pclip=99.99')
 
-
 End()

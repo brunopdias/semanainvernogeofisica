@@ -15,8 +15,10 @@ Ementa do Curso
 
 #### Dia 1
 
-- **Módulo 1:** Introdução & Motivação
-  
+- **Módulo 1:** Objetivos, Introdução & Motivação
+   - [Full Modeling](lsm/full_mod)
+   - [Born Modeling](lsm/born_mod)
+
 - **Módulo 2:** LSM no Domínio dos Dados
    - [Kirchhoff LSM](lsm/kirch)
 
