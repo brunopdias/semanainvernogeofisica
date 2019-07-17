@@ -68,7 +68,7 @@ def create_ricker(wav, par,dl,deriv, **kwargs):
                 sfmath output="(x1-%(kt)f)*exp(-%(da2)f*(x1-%(kt)f)^2)" |
                 transp plane=12|
                 put label1="t" '''%(par))
-    elif (deriv == 0 ):
+    elif (deriv == 0):
         Flow(wav, None,
              '''spike nsp=1 mag=0 k1=0
                 o1=%(ot)f d1=%(dt)f n1=%(nt)d|
@@ -76,7 +76,7 @@ def create_ricker(wav, par,dl,deriv, **kwargs):
                                exp( -%(da2)f*(x1-%(kt)f)^2 )" |
                 transp plane=12|
                 put label1="t" '''%(par))
-    elif (deriv == 0.5 ):
+    elif (deriv == 0.5):
         Flow(wav, None,
              '''spike nsp=1 mag=0 k1=0
                 o1=%(ot)f d1=%(dt)f n1=%(nt)d|
@@ -84,7 +84,7 @@ def create_ricker(wav, par,dl,deriv, **kwargs):
                                exp( -%(da2)f*(x1-%(kt)f)^2 )" |
                 halfint inv=y | transp plane=12|
                 put label1="t" '''%(par))
-    elif (deriv == 1 ):
+    elif (deriv == 1):
         Flow(wav, None,
              '''spike nsp=1 mag=0 k1=0
                 o1=%(ot)f d1=%(dt)f n1=%(nt)d|
@@ -94,7 +94,7 @@ def create_ricker(wav, par,dl,deriv, **kwargs):
                 transp plane=12|
                 put label1="t" '''%(par))
     else:
-        print "Derivative order not available!"
+        print("Derivative order not available!")
 
 
 #plot signal and its spectrum (1d only)
