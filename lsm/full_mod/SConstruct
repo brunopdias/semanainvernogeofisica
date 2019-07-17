@@ -180,7 +180,7 @@ else:
 modpar['vp']  = float(ARGUMENTS.get('vp', modpar['vp']))
 modpar['rho'] = float(ARGUMENTS.get('rho', modpar['rho']))
 
-print 'model parameters: ',modpar
+print('model parameters: ',modpar)
 
 # modeling parameters
 par=dict(
