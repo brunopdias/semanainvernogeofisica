@@ -10,18 +10,14 @@ k="k1=10,20,50,80,10,20,50,80,10,20,50,80 k2=100,100,100,100,5,5,5,5,195,195,195
 Flow('vel', None, 'spike mag=1. %s'%(m))
 Flow('refl', None, 'spike mag=1. %s %s'%(m,k))
 
+Result('refl','grey title="Reflectivity" pclip=100.')
+
 # Kirchhoff modeling
 off="nh=1 dh=0.01 h0=0 apt=20"
-Flow('dat', 'refl vel',
-     '''
-     mig2 vel=${SOURCES[1]} %s adj=n antialias=1
-     '''%(off))
+Flow('dat', 'refl vel', 'mig2 vel=${SOURCES[1]} %s adj=n antialias=1'%(off))
 
 # Kirchhoff migration
-Flow('mig', 'dat vel',
-     '''
-     mig2 vel=${SOURCES[1]} %s adj=y antialias=1
-     '''%(off))
+Flow('mig', 'dat vel', 'mig2 vel=${SOURCES[1]} %s adj=y antialias=1'%(off))
 
 # Least-squares migration
 niter=10
