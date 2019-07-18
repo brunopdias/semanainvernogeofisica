@@ -214,7 +214,7 @@ make_homog_model(par, modpar['vp'],vp,dpath)
 make_homog_model(par, 1.0,rho,dpath)
 
 # make spike models
-m = [1.0, 1.0, 1.0]
+m = [0.0, 1.0, 1.0]
 s = 3
 k = [(1,1),                 (par['nz']/2-s,par['nz']/4-s), (par['nz']/2-s,3*par['nz']/4-s)]
 l = [(par['nz'],par['nx']), (par['nz']/2+s,par['nz']/4+s), (par['nz']/2+s,3*par['nz']/4+s)]
