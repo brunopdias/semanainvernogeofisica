@@ -277,8 +277,8 @@ for j in range(start, end+1):
                   sfile, rfile, vp, rho, refl, par)
 
     # plotting registered data
-    #snap_plot(bwfshot,99.)
-    snap_plot(swfshot,90.)
+    snap_plot(bwfshot,99.)
+    snap_plot(swfshot,99.)
     #sismo_plot(fshot,99)
 
 # concatenate data and store permanently
