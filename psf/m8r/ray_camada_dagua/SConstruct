@@ -1,0 +1,30 @@
+from rsf.proj import *
+
+# input model
+model="velocidade_2d_resamp.rsf"
+
+# Shot position
+Flow('shots.asc', None, """ echo 0 0 0 5000 0 10000 0 15000 0 20000
+                            in=shots.asc n1=2 n2=5 o2=1 d2=1 data_format=ascii_float""")
+
+Flow('shots', 'shots.asc', "dd form=native")
+
+# plot the model
+Plot('model',model,'''grey color=j scalebar=y label1=Depth unit1=km bias=1480
+                        label2=Position unit2=km barlabel=Velocity barunit=km/s
+                        barreverse=y title=Model allpos=y''')
+
+# do a ray-tracing
+Flow('ray',[model,'shots'],"""rays2 shotfile=${SOURCES[1]} nt=5000 dt=0.002
+                            a0=270. amax=90. nr=60""")
+
+# plot the ray
+for ns in range(4):
+    Flow('ray'+str(ns),'ray',"window n3=1 f3=%d"%(ns))
+    Plot('ray'+str(ns),'''graph transp=y yreverse=y min1=0 max1=3000 min2=0 max2=21000
+                          wantaxis=n wanttitle=n scalebar=y plotcol=7 plotfat=3''')
+
+    # overlay model and ray
+    Result('overlay'+str(ns),'model ray'+str(ns),'Overlay')
+
+End()
