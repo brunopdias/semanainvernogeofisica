@@ -1,5 +1,5 @@
-Modelagem
-=========
+Otimização
+==========
 
 Exemplos: [octave](octave)
 --------------------------

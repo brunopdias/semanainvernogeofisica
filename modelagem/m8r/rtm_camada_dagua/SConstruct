@@ -220,7 +220,7 @@ for j in range(start, end+1):
 
     # source position
     xsrc = offset + (j-1)*par['dshot']
-    print xsrc
+    print(xsrc)
 
     #receiver line
     rfile='receivers_'+str(j)
