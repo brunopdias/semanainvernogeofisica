@@ -100,7 +100,7 @@ def create_ricker(wav, par,dl,deriv, **kwargs):
                 transp plane=12|
                 put label1="t" '''%(par))
     else:
-        print "Derivative order not available!"
+        print("Derivative order not available!")
 
 
 # create elastic tensor wavetet (concatenating txx, tzz wavelets)
@@ -214,7 +214,7 @@ epsval= arr2str((0,modpar['eps1'],modpar['eps2']),',')
 dltval= arr2str((0,modpar['dlt1'],modpar['dlt2']),',')
 
 
-print 'model parameters: ',modpar
+print('model parameters: ',modpar)
 
 # modeling parameters
 par=dict(
@@ -315,7 +315,7 @@ for j in range(start, end+1):
 
     # source position
     xsrc = offset + (j-1)*par['dshot']
-    print xsrc
+    print(xsrc)
 
     #receiver line
     rfile='receivers_'+str(j)

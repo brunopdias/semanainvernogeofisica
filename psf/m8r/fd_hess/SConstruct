@@ -69,7 +69,7 @@ def create_ricker(wav, par,dl,deriv, **kwargs):
                 transp plane=12|
                 put label1="t" '''%(par))
     else:
-        print "Derivative order not available!"
+        print("Derivative order not available!")
 
 
 #plot signal and its spectrum (1d only)
@@ -234,7 +234,7 @@ for j in range(start, end+1):
 
 
     xsrc = offset + (j-1)*par['dshot']
-    print xsrc
+    print(xsrc)
     oor=xsrc + 25. #posicao do primeiro receptor - cabo empurrando
     #    oor=xsrc - 1625. #posicao do primeiro receptor - cabo sendo puxado
     #oor = 0.  # spread-fixo

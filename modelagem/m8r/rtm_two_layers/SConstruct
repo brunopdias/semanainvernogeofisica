@@ -73,7 +73,7 @@ def create_ricker(wav, par,dl,deriv, **kwargs):
                 transp plane=12|
                 put label1="t" '''%(par))
     else:
-        print "Derivative order not available!"
+        print("Derivative order not available!")
 
 
 #plot signal and its spectrum (1d only)
@@ -171,7 +171,7 @@ modpar['rho2'] = float(ARGUMENTS.get('rho2', modpar['rho2']))
 vpval= arr2str((0,modpar['vp1'],modpar['vp2']),',')
 rhoval= arr2str((0,modpar['rho1'],modpar['rho2']),',')
 
-print 'model parameters: ',modpar
+print('model parameters: ',modpar)
 
 # modeling parameters
 par=dict(
@@ -256,7 +256,7 @@ for j in range(start, end+1):
 
     # source position
     xsrc = offset + (j-1)*par['dshot']
-    print xsrc
+    print(xsrc)
 
     #receiver line
     rfile='receivers_'+str(j)
