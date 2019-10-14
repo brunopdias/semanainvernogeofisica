@@ -1,0 +1,50 @@
+#
+# Original file in $RSFSRC/book/tccs/dsrtomo/marm
+#
+from rsf.proj import *
+
+zmax = 50
+xmin = 1
+xmax = 100
+
+minv = 1.5
+maxv = 3.3
+clip = 1.85
+
+# fetch model
+Fetch('marmvel.hh',"marm")
+
+Flow('marmvel','marmvel.hh',
+     '''
+     dd form=native | 
+     scale rscale=.001 | put
+     label1=Depth label2=Position unit1=km unit2=km
+     d1=0.004 d2=0.004
+     ''')
+
+# decimate model'
+Flow('marm','marmvel','window j1=8 j2=8')
+
+Plot('marm',
+     '''
+     window n1=%d n2=%d f2=%d |
+     grey color=j scalebar=y allpos=y title="Marmousi Model"
+     barlabel=Velocity barunit=km/s barreverse=y
+     minval=%g maxval=%g clip=%g bias=%g labelsz=10 titlesz=12 labelfat=6 titlefat=6
+     ''' % (zmax,xmax-xmin+1,xmin,minv,maxv,clip,minv))
+
+
+# Eikonal modeling
+Flow('data','marm','dsreiko')
+
+Result('data',
+       '''
+       byte gainpanel=all bar=bar.rsf allpos=y pclip=100 | 
+       grey3 color=j scalebar=y flat=n point1=0.35 point2=0.7
+       title="DSR Prestack Modeling" barlabel=Traveltime barunit=s 
+       label2=Receiver unit2=km label3=Source unit3=km
+       screenratio=0.7 labelsz=6 titlesz=8 labelfat=3 titlefat=3
+       ''')
+
+
+End()
