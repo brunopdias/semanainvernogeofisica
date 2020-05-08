@@ -8,8 +8,8 @@ dpath=osenv.get('DATAPATH')
 #dpath=/home/
 
 #-------------------------------------------------------------
-def arr2str(array,sep=' '):
-    return string.join(map(str,array),sep)
+def arr2str(array,sep=" "):
+    return sep.join(map(str,array))
 
 ## Make homogeneous model
 def make_homog_model(n1,n2,d1,d2,mag,model,dpath):
@@ -200,7 +200,7 @@ layers = ((0.1,0.1,0.1,0.1,0.1),
 n1 = len(layers[0])
 n2 = len(layers)
 
-layers1 = string.join(map(arr2str,layers),' ')
+layers1 = " ".join(map(arr2str,layers))
 
 Flow('layers',None,
      '''
