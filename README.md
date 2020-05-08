@@ -52,3 +52,31 @@ Pré-Requisitos / Instalação do Sistema
 > `git clone https://github.com/ahay/src RSFSRC`
 
 ---------------------------------
+
+Pré-Requisitos via Docker
+---------------------
+
+Com Docker instalado em sua máquina, entre no diretório clonado e digite:
+
+```bash
+docker build -t semanainvernogeofisica . 
+```
+
+**Entrando no contêiner**:
+
+```bash
+docker run -it semanainvernogeofisica
+```
+
+Navegue entre as pastas via terminal
+
+![Terminal Docker](figures/docker.png)
+
+
+**Habilitando Interfaces gráficas (GUI) no contêiner**:
+
+```bash
+docker run -it -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY semanainvernogeofisica
+```
+
+> **Obs**: Caso sinta falta de alguma biblioteca, é possível editar o Dockerfile de acordo com sua necessidade. A imagem é baseada no Ubuntu 18.04.
