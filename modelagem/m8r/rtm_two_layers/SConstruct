@@ -10,7 +10,7 @@ dpath=osenv.get('DATAPATH')
 
 #-------------------------------------------------------------
 def arr2str(array,sep=' '):
-    return string.join(map(str,array),sep)
+    return sep.join(str(x) for x in array) 
 
 ## Make homogeneous model
 def make_homog_model(n1,n2,d1,d2,mag,model,dpath):
@@ -85,7 +85,7 @@ def plot_sig_spec(sig, fcut, transpose, **kwargs):
         ssig=sig
 
     Flow('spec-'+ssig, ssig,
-         "spectra|put label1='Frequency' title='Spectrum'  ")
+    "spectra|put label1='Frequency' title='Spectrum'  ")
 
     Plot('plot-spec-'+ssig, 'spec-'+ssig,
          "window max1=%f |graph"%(fcut))
@@ -214,8 +214,8 @@ layers = ((0.01,0.01,0.01,0.01,0.01),
 n1 = len(layers[0])
 n2 = len(layers)
 
-layers1 = string.join(map(arr2str,layers),' ')
-
+layers1 = ' '.join(map(arr2str,layers))
+            
 Flow('layers',None,
      '''
      echo %s

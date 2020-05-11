@@ -16,8 +16,9 @@ try:  # distributed version
     env = env.Clone()
 except: # local version
     glob_build = False # scons command launched in the local directory
-    srcroot = os.environ.get('RSFSRC', '../..')
-    sys.path.append(os.path.join(srcroot,'framework'))
+    rsfroot = os.environ.get('RSFROOT')
+    rsfsrc  = os.environ.get('RSFSRC')
+    sys.path.append(os.path.join(rsfsrc,'framework'))
     import bldutil
     env = bldutil.Debug()
     root = None
@@ -28,8 +29,8 @@ src = Glob('[a-z]*.c')
 sparsepath = env.get('SPARSEPATH')
 sparselibs = env.get('SPARSELIBS')
 
-env.Prepend(CPPPATH=[srcroot+'/include'],
-            LIBPATH=[srcroot+'/lib'],
+env.Prepend(CPPPATH=[rsfroot+'/include'],
+            LIBPATH=[rsfroot+'/lib'],
             LIBS=[env.get('DYNLIB','')+'rsfpwd',
                   env.get('DYNLIB','')+'rsf'])
 
@@ -39,6 +40,7 @@ if sparsepath and sparselibs:
     
 for source in src:
     inc = env.RSF_Include(source,prefix='')
+    env.Ignore(inc,inc)
     if sparselibs:
         obj = env.StaticObject(source)
         env.Depends(obj,inc)
@@ -49,7 +51,7 @@ for prog in mains:
     bldutil.depends(env,sources,'M'+prog)
 
     if sparsepath and sparselibs:
-        prog = env.Program(prog,map(lambda x: x + '.c',sources))
+        prog = env.Program(prog,[x + '.c' for x in sources])
     else:
         prog = env.RSF_Place('sf'+prog,None,var='SPARSELIBS',
                              package='suitesparse')
